@@ -6,17 +6,17 @@
 ============Quantumultx===============
 [task_local]
 #口袋书店
-1 8,12,18 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bookshop.js, tag=口袋书店, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+1 8,12,18 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_bookshop.js, tag=口袋书店, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "1 8,12,18 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bookshop.js,tag=口袋书店
+cron "1 8,12,18 * * *" script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_bookshop.js,tag=口袋书店
 
 ===============Surge=================
-口袋书店 = type=cron,cronexp="1 8,12,18 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bookshop.js
+口袋书店 = type=cron,cronexp="1 8,12,18 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_bookshop.js
 
 ============小火箭=========
-口袋书店 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bookshop.js, cronexpr="1 8,12,18* * *", timeout=3600, enable=true
+口袋书店 = type=cron,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_bookshop.js, cronexpr="1 8,12,18* * *", timeout=3600, enable=true
  */
 const $ = new Env('口袋书店');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -30,8 +30,8 @@ ADD_CART = $.isNode() ? (process.env.PURCHASE_SHOPS ? process.env.PURCHASE_SHOPS
 // 加入购物车开关，与东东小窝共享
 
 let inviteCodes = [
-  '4dd98623868f4292b5432822389fe3e9@daf75e50044144c68b2aff47de57fe49@e341962809ae42c5b8d2d61995bbb5a4@77f08ad1aea04b73acd4542f7fd1dac6@fe5536751f89403d87bad635a87bd956',
-  '4dd98623868f4292b5432822389fe3e9@daf75e50044144c68b2aff47de57fe49@e341962809ae42c5b8d2d61995bbb5a4'
+  'c68bf26e0a9e4e73b610b9902448bea6@61dc4400fcba4b38893ea88dcf7ee6a4@ed769bec4e514a34a026e22b5deb1937@c993d26b0dd94ca0a68b910fbf281e5d',
+  'c68bf26e0a9e4e73b610b9902448bea6@61dc4400fcba4b38893ea88dcf7ee6a4@ed769bec4e514a34a026e22b5deb1937@c993d26b0dd94ca0a68b910fbf281e5d'
 ]
 
 if ($.isNode()) {
@@ -633,7 +633,11 @@ function TotalBean() {
               $.isLogin = false; //cookie过期
               return
             }
-            $.nickName = data['base'].nickname;
+            if (data['retcode'] === 0) {
+              $.nickName = data['base'].nickname;
+            } else {
+              $.nickName = $.UserName
+            }
           } else {
             console.log(`京东服务器返回空数据`)
           }

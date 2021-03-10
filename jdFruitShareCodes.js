@@ -8,9 +8,9 @@
 // 如: 京东账号1的shareCode1@京东账号1的shareCode2&京东账号2的shareCode1@京东账号2的shareCode2
 let FruitShareCodes = [
    //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开
-  '35fcfda6d3af48e7afe79f5e18a39e55@5a41b6db624346cdbe347b61279fda8f@3fa4d41fe66e47bd8a9549e33e3b9b54@5dc8a7b9f4544a8ca79f8cf62d0c7623@4918db5a466c4332843c75064a5a3880',
+  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea@9f7c308ed28346dd855d8e2ebc2f7142',
   //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开
-  '35fcfda6d3af48e7afe79f5e18a39e55@5a41b6db624346cdbe347b61279fda8f@3fa4d41fe66e47bd8a9549e33e3b9b54@5dc8a7b9f4544a8ca79f8cf62d0c7623@4918db5a466c4332843c75064a5a3880',
+  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea@9f7c308ed28346dd855d8e2ebc2f7142',
  ]
 // 判断github action里面是否有水果互助码
 if (process.env.FRUITSHARECODES) {

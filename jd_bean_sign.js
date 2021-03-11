@@ -123,12 +123,12 @@ async function downFile () {
   // }
   await downloadUrl();
   if ($.body) {
-    url = 'https://raw.sevencdn.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js';
+    url = 'https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js';
   } else {
     url = 'https://cdn.jsdelivr.net/gh/NobyDa/Script@master/JD-DailyBonus/JD_DailyBonus.js';
   }
   try {
-    const options = { }
+    const options = { "timeout": 10000 }
     if (process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {
       const tunnel = require("tunnel");
       const agent = {
@@ -221,7 +221,7 @@ function TotalBean() {
     })
   })
 }
-function downloadUrl(url = 'https://raw.sevencdn.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js') {
+function downloadUrl(url = 'https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js') {
   return new Promise(resolve => {
     const options = { url, "timeout": 10000 };
     if ($.isNode() && process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {

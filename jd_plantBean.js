@@ -1,6 +1,6 @@
 /*
-种豆得豆 脚本更新地址：https://gitee.com/lxk0301/jd_scripts/raw/master/jd_plantBean.js
-更新时间：2021-1-16
+种豆得豆 脚本更新地址：https://jdsharedresourcescdn.azureedge.net/jdresource/jd_plantBean.js
+更新时间：2021-2-27
 活动入口：京东APP我的-更多工具-种豆得豆
 已支持IOS京东双账号,云端N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
@@ -9,17 +9,17 @@
 每个京东账号每天只能帮助3个人。多出的助力码将会助力失败。
 =====================================Quantumult X=================================
 [task_local]
-1 7-21/2 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_plantBean.js, tag=种豆得豆, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdzd.png, enabled=true
+1 7-21/2 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_plantBean.js, tag=种豆得豆, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdzd.png, enabled=true
 
 =====================================Loon================================
 [Script]
-cron "1 7-21/2 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_plantBean.js,tag=京东种豆得豆
+cron "1 7-21/2 * * *" script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_plantBean.js,tag=京东种豆得豆
 
 ======================================Surge==========================
-京东种豆得豆 = type=cron,cronexp="1 7-21/2 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_plantBean.js
+京东种豆得豆 = type=cron,cronexp="1 7-21/2 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_plantBean.js
 
 ====================================小火箭=============================
-京东种豆得豆 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_plantBean.js, cronexpr="1 7-21/2 * * *", timeout=3600, enable=true
+京东种豆得豆 = type=cron,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_plantBean.js, cronexpr="1 7-21/2 * * *", timeout=3600, enable=true
 
 搬的https://github.com/uniqueque/QuantumultX/blob/4c1572d93d4d4f883f483f907120a75d925a693e/Script/jd_plantBean.js
 */
@@ -35,16 +35,19 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
 let shareCodes = [ // IOS本地脚本用户这个列表填入你要助力的好友的shareCode
                    //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开
-  'mlrdw3aw26j3xc6xycqtc74umufg2kphl3yfaxy@4npkonnsy7xi3ii7u6y52byc4urucexhl2wh2pq@olmijoxgmjutydymkyc56wollvia4yorekjt5ky@q7knrx5fitalyburqkflsm4jjq3h7wlwy7o5jii@4npkonnsy7xi2dkkbvl643342m5of4rpapky3ha@u72q4vdn3zes3byfckc62jqcbkxq3wtymnzrz2i@e7lhibzb3zek3ziaj5fstdr2qbxofrnt63pxzpq@fn5sjpg5zdejmpxw4mttxyyppqmy3t6eveppesy',
+  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',
   //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开
-  'mlrdw3aw26j3xc6xycqtc74umufg2kphl3yfaxy@4npkonnsy7xi3ii7u6y52byc4urucexhl2wh2pq@olmijoxgmjutydymkyc56wollvia4yorekjt5ky@q7knrx5fitalyburqkflsm4jjq3h7wlwy7o5jii@4npkonnsy7xi2dkkbvl643342m5of4rpapky3ha@u72q4vdn3zes3byfckc62jqcbkxq3wtymnzrz2i@e7lhibzb3zek3ziaj5fstdr2qbxofrnt63pxzpq@fn5sjpg5zdejmpxw4mttxyyppqmy3t6eveppesy',
+  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',
+  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',
+  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',
+  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',
 ]
 let allMessage = ``;
 let currentRoundId = null;//本期活动id
 let lastRoundId = null;//上期id
 let roundList = [];
 let awardState = '';//上期活动的京豆是否收取
-let randomCount = $.isNode() ? 0 : 5;
+let randomCount = $.isNode() ? 20 : 5;
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -581,13 +584,7 @@ function requireConfig() {
       })
       if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
     } else {
-      let cookiesData = $.getdata('CookiesJD') || "[]";
-      cookiesData = jsonParse(cookiesData);
-      cookiesArr = cookiesData.map(item => item.cookie);
-      cookiesArr.reverse();
-      cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
-      cookiesArr.reverse();
-      cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
+      cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
     }
     console.log(`共${cookiesArr.length}个京东账号\n`)
     if ($.isNode()) {
@@ -698,7 +695,11 @@ function TotalBean() {
               $.isLogin = false; //cookie过期
               return
             }
-            $.nickName = data['base'].nickname;
+            if (data['retcode'] === 0) {
+              $.nickName = data['base'].nickname;
+            } else {
+              $.nickName = $.UserName
+            }
           } else {
             console.log(`京东服务器返回空数据`)
           }

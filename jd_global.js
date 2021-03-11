@@ -9,17 +9,17 @@
 ============Quantumultx===============
 [task_local]
 #环球挑战赛
-0 9,12,20,21 8-31 3 * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_global.js, tag=环球挑战赛, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+0 9,12,20,21 8-31 3 * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_global.js, tag=环球挑战赛, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "0 9,12,20,21 8-31 3 *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_global.js,tag=环球挑战赛
+cron "0 9,12,20,21 8-31 3 *" script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_global.js,tag=环球挑战赛
 
 ===============Surge=================
-环球挑战赛 = type=cron,cronexp="0 9,12,20,21 8-31 3 *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_global.js
+环球挑战赛 = type=cron,cronexp="0 9,12,20,21 8-31 3 *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_global.js
 
 ============小火箭=========
-环球挑战赛 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_global.js, cronexpr="0 9,12,20,21 8-31 3 *", timeout=3600, enable=true
+环球挑战赛 = type=cron,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_global.js, cronexpr="0 9,12,20,21 8-31 3 *", timeout=3600, enable=true
  */
 const $ = new Env('环球挑战赛');
 
@@ -43,8 +43,11 @@ if ($.isNode()) {
 
 const JD_API_HOST = 'https://api.m.jd.com/', actCode = 'visa-card-001';
 const inviteCodes = [
-  'VThYK3RQOEFrK05wSnFkTlpybHR5aURJWXRWbnF5T0JXWUdnWXdqOXRqOD0=@dEx4UXpwVTY1Z1FoRlVGMG9uVFZhMlhhUm9GVUlVM2IzdjRtTXpnOFVvZz0=@RU9wTXF0cjlUeHVVanY1bVpQN0hyS0V3QjNibHZ1MnlsRUh5ZjRuQ25IQT0=@VW8xRnFPa2w0bzUwbzNOWjhpMXFldz09@VkhKaE13Z2N3WlJua2NGSUNZbCtrZz09',
-  'VThYK3RQOEFrK05wSnFkTlpybHR5aURJWXRWbnF5T0JXWUdnWXdqOXRqOD0=@dEx4UXpwVTY1Z1FoRlVGMG9uVFZhMlhhUm9GVUlVM2IzdjRtTXpnOFVvZz0=@RU9wTXF0cjlUeHVVanY1bVpQN0hyS0V3QjNibHZ1MnlsRUh5ZjRuQ25IQT0=@VW8xRnFPa2w0bzUwbzNOWjhpMXFldz09@VkhKaE13Z2N3WlJua2NGSUNZbCtrZz09',
+  'ejVxcElDRE5wbzd5K29wZy9wVjc4dz09@SDNVZi9vTW5LbkNvYU5YbFUyb0gyZz09@UGx6bTVQZXptMkM5dXZrc0owNndiUT09',
+  'ejVxcElDRE5wbzd5K29wZy9wVjc4dz09@SDNVZi9vTW5LbkNvYU5YbFUyb0gyZz09@UGx6bTVQZXptMkM5dXZrc0owNndiUT09',
+  'ejVxcElDRE5wbzd5K29wZy9wVjc4dz09@SDNVZi9vTW5LbkNvYU5YbFUyb0gyZz09@UGx6bTVQZXptMkM5dXZrc0owNndiUT09',
+  'ejVxcElDRE5wbzd5K29wZy9wVjc4dz09@SDNVZi9vTW5LbkNvYU5YbFUyb0gyZz09@UGx6bTVQZXptMkM5dXZrc0owNndiUT09',
+  'ejVxcElDRE5wbzd5K29wZy9wVjc4dz09@SDNVZi9vTW5LbkNvYU5YbFUyb0gyZz09@UGx6bTVQZXptMkM5dXZrc0owNndiUT09',
 ];
 $.invites = [];
 !(async () => {

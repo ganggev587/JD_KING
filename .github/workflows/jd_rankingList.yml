@@ -35,7 +35,7 @@ jobs:
           npm install
       - name: '运行 「京东」排行榜'
         run: |
-          node jd_rankingList_o.js
+          node jd_rankingList.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}

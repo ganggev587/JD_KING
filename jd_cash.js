@@ -44,7 +44,6 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
     return;
   }
   await requireConfig()
-  await getAuthorShareCode();
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -349,25 +348,6 @@ function taskUrl(functionId, body = {}) {
       'Accept-Encoding': 'gzip, deflate, br',	
     }	
   }	
-}	
-function getAuthorShareCode() {	
-  return new Promise(resolve => {	
-    $.get({url: "https://raw.sevencdn.com/zero205/updateTeam/master/shareCodes/jd_updateCash.json",headers:{	
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"	
-      }}, async (err, resp, data) => {	
-      $.authorCode = [];	
-      try {	
-        if (err) {	
-        } else {	
-          $.authorCode = JSON.parse(data)	
-        }	
-      } catch (e) {	
-        $.logErr(e, resp)	
-      } finally {	
-        resolve();	
-      }	
-    })	
-  })	
 }	
 function TotalBean() {	
   return new Promise(async resolve => {	

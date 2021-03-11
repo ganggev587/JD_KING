@@ -35,7 +35,7 @@ jobs:
           npm install
       - name: '运行 「京东」抽奖机'
         run: |
-          node jd_lotteryMachine_o.js
+          node jd_lotteryMachine.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}

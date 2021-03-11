@@ -18,13 +18,7 @@ if ($.isNode()) {
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {
   };
 } else {
-  let cookiesData = $.getdata('CookiesJD') || "[]";
-  cookiesData = jsonParse(cookiesData);
-  cookiesArr = cookiesData.map(item => item.cookie);
-  cookiesArr.reverse();
-  cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
-  cookiesArr.reverse();
-  cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
+  cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const jdNotify = $.getdata('jdUnsubscribeNotify');//是否关闭通知，false打开通知推送，true关闭通知推送
 let goodPageSize = $.getdata('jdUnsubscribePageSize') || 20;// 运行一次取消多少个已关注的商品。数字0表示不取关任何商品
@@ -158,19 +152,17 @@ function isJDCoupon(title) {
     return true
   else if (title.indexOf('超市') > -1)
     return true
-  else if (title.indexOf('1元爆品') > -1)
-    return true
   else if (title.indexOf('京贴') > -1)
     return true
-  else if (title.indexOf('国际') > -1)
-    return false
+  else if (title.indexOf('全品类') > -1)
+    return true
+  else if (title.indexOf('话费') > -1)
+    return true
+  else if (title.indexOf('小鸽有礼') > -1)
+    return true
   else if (title.indexOf('旗舰店') > -1)
     return false
   else if (title.indexOf('生鲜') > -1)
-    return true
-  else if (title.indexOf('9.9减9') > -1)
-    return true
-  else if (title.indexOf('食品饮料') > -1)
     return true
   else
     return false
@@ -211,7 +203,11 @@ function TotalBean() {
               $.isLogin = false; //cookie过期
               return
             }
-            $.nickName = data['base'].nickname;
+            if (data['retcode'] === 0) {
+              $.nickName = data['base'].nickname;
+            } else {
+              $.nickName = $.UserName
+            }
           } else {
             console.log(`京东服务器返回空数据`)
           }

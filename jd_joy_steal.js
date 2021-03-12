@@ -16,14 +16,11 @@ IOS用户支持京东双账号,NodeJs用户支持N个京东账号
 [task_local]
 #宠汪汪偷好友积分与狗粮
 10 0-21/3 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_joy_steal.js, tag=宠汪汪偷好友积分与狗粮, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdcww.png, enabled=true
-
 =======Loon========
 [Script]
 cron "10 0-21/3 * * *" script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_joy_steal.js,tag=宠汪汪偷好友积分与狗粮
-
 ========Surge==========
 宠汪汪偷好友积分与狗粮 = type=cron,cronexp="10 0-21/3 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_joy_steal.js
-
 =======小火箭=====
 宠汪汪偷好友积分与狗粮 = type=cron,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_joy_steal.js, cronexpr="10 0-21/3 * * *", timeout=3600, enable=true
 */
@@ -50,7 +47,6 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 let message = '', subTitle = '';
-
 let jdNotify = true;//是否开启静默运行，false关闭静默运行(即通知)，true打开静默运行(即不通知)
 let jdJoyHelpFeed = false;//是否给好友喂食，false为不给喂食，true为给好友喂食，默认不给好友喂食
 let jdJoyStealCoin = true;//是否偷好友积分与狗粮，false为否，true为是，默认是偷
@@ -91,7 +87,6 @@ if ($.isNode() && process.env.jdJoyStealCoin) {
       console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
       if (!$.isLogin) {
         $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-
         if ($.isNode()) {
           await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
         }
@@ -291,297 +286,296 @@ async function helpFriendsFeed() {
 function getFriends(currentPage = '1') {
   return new Promise(resolve => {
     let opt = {
-      url: `//jdjoy.jd.com/common/pet/getFriends?itemsPerPage=20&currentPage=${currentPage * 1}&reqSource=h5`,
-      // url: `//draw.jdfcloud.com/common/pet/getPetTaskConfig?reqSource=h5`,
-      method: "GET",
-      data: {},
-      credentials: "include",
-      header: {"content-type": "application/json"}
-    }
-    const url = "https:"+ taroRequest(opt)['url']
-    const options = {
-      url,
-      headers: {
-        'Cookie': cookie,
-        'reqSource': 'h5',
-        'Host': 'jdjoy.jd.com',
-        'Connection': 'keep-alive',
-        'Content-Type': 'application/json',
-        'Referer': 'https://jdjoy.jd.com/pet/index',
-        'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0"),
-        'Accept-Language': 'zh-cn',
-        'Accept-Encoding': 'gzip, deflate, br',
-      },
-      timeout: 10000
-    }
-    $.get(options, (err, resp, data) => {
-      try {
-        if (err) {
-          console.log('\n京东宠汪汪: API查询请求失败 ‼️‼️')
-          throw new Error(err);
-        } else {
-          // console.log('JSON.parse(data)', JSON.parse(data))
-          if (data) {
-            $.getFriendsData = JSON.parse(data);
-          } else {
-            console.log(`京豆api返回数据为空，请检查自身原因`)
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    })
-  })
-}
-
-async function stealFriendCoin(friendPin) {
-  // console.log(`进入好友 ${friendPin}的房间`)
-  const enterFriendRoomRes = await enterFriendRoom(friendPin);
-  if (enterFriendRoomRes) {
-    const { friendHomeCoin } =  enterFriendRoomRes.data;
-    if (friendHomeCoin > 0) {
-      //领取好友积分
-      console.log(`好友 ${friendPin}的房间可领取积分${friendHomeCoin}个\n`)
-      const getFriendCoinRes = await getFriendCoin(friendPin);
-      console.log(`偷好友积分结果：${JSON.stringify(getFriendCoinRes)}\n`)
-      if (getFriendCoinRes && getFriendCoinRes.errorCode === 'coin_took_ok') {
-        $.stealFriendCoin += getFriendCoinRes.data;
-      }
-    } else {
-      console.log(`好友 ${friendPin}的房间暂无可领取积分\n`)
-    }
-  }
-}
-//进入好友房间
-function enterFriendRoom(friendPin) {
-  console.log(`\nfriendPin:: ${friendPin}\n`);
-  return new Promise(async resolve => {
-    $.get(taskUrl('enterFriendRoom', (friendPin)), (err, resp, data) => {
-      try {
-        if (err) {
-          console.log('\n京东宠汪汪: API查询请求失败 ‼️‼️')
-          console.log(`\n${JSON.stringify(err)}`)
-          console.log(`\n${err}\n`)
-          throw new Error(err);
-        } else {
-          // console.log('进入好友房间', JSON.parse(data))
-          if (data) {
-            data = JSON.parse(data);
-            console.log(`可偷狗粮：${data.data.stealFood}`)
-            console.log(`可偷积分：${data.data.friendHomeCoin}`)
-          } else {
-            console.log(`京豆api返回数据为空，请检查自身原因`)
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve(data);
-      }
-    })
-  })
-}
-//收集好友金币
-function getFriendCoin(friendPin) {
-  return new Promise(resolve => {
-    $.get(taskUrl('getFriendCoin', friendPin), (err, resp, data) => {
-      try {
-        if (err) {
-          console.log('\n京东宠汪汪: API查询请求失败 ‼️‼️')
-          throw new Error(err);
-        } else {
-          if (data) {
-            data = JSON.parse(data);
-          } else {
-            console.log(`京豆api返回数据为空，请检查自身原因`)
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve(data);
-      }
-    })
-  })
-}
-//帮好友喂食
-function helpFeed(friendPin) {
-  return new Promise(resolve => {
-    $.get(taskUrl('helpFeed', friendPin), (err, resp, data) => {
-      try {
-        if (err) {
-          console.log('\n京东宠汪汪: API查询请求失败 ‼️‼️')
-          throw new Error(err);
-        } else {
-          if (data) {
-            data = JSON.parse(data);
-          } else {
-            console.log(`京豆api返回数据为空，请检查自身原因`)
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve(data);
-      }
-    })
-  })
-}
-//收集好友狗粮,已实现分享可得双倍狗粮功能
-//①分享
-function doubleRandomFood(friendPin) {
-  return new Promise(resolve => {
-    $.get(taskUrl('doubleRandomFood', friendPin), (err, resp, data) => {
-      try {
-        if (err) {
-          console.log('\n京东宠汪汪: API查询请求失败 ‼️‼️')
-          throw new Error(err);
-        } else {
-          // console.log('分享', JSON.parse(data))
-          // $.appGetPetTaskConfigRes = JSON.parse(data);
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    })
-  })
-}
-//②领取双倍狗粮
-function getRandomFood(friendPin) {
-  return new Promise(resolve => {
-    $.get(taskUrl('getRandomFood', friendPin), (err, resp, data) => {
-      try {
-        if (err) {
-          console.log('\n京东宠汪汪: API查询请求失败 ‼️‼️')
-          throw new Error(err);
-        } else {
-          if (data) {
-            console.log(`领取双倍狗粮结果--${data}`)
-            data = JSON.parse(data);
-          } else {
-            console.log(`京豆api返回数据为空，请检查自身原因`)
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve(data);
-      }
-    })
-  })
-}
-function getCoinChanges() {
-  return new Promise(resolve => {
-    let opt = {
-      url: `//jdjoy.jd.com/common/pet/getCoinChanges?changeDate=${Date.now()}&reqSource=h5`,
-      // url: "//draw.jdfcloud.com/common/pet/getPetTaskConfig?reqSource=h5",
-      method: "GET",
-      data: {},
-      credentials: "include",
-      header: {"content-type": "application/json"}
-    }
-    const url = "https:"+ taroRequest(opt)['url']
-    const options = {
-      url,
-      headers: {
-        'Cookie': cookie,
-        'reqSource': 'h5',
-        'Host': 'jdjoy.jd.com',
-        'Connection': 'keep-alive',
-        'Content-Type': 'application/json',
-        'Referer': 'https://jdjoy.jd.com/pet/index',
-        'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0"),
-        'Accept-Language': 'zh-cn',
-        'Accept-Encoding': 'gzip, deflate, br',
-      }
-    }
-    $.get(options, (err, resp, data) => {
-      try {
-        if (err) {
-          console.log('\n京东宠汪汪: API查询请求失败 ‼️‼️')
-          throw new Error(err);
-        } else {
-          // console.log('getCoinChanges', JSON.parse(data))
-          if (data) {
-            data = JSON.parse(data);
-            if (data.datas && data.datas.length > 0) {
-              $.help_feed = 0;
-              $.visit_friend = 0;
-              for (let item of data.datas) {
-                if ($.time('yyyy-MM-dd') === timeFormat(item.createdDate) && item.changeEvent === 'help_feed'){
-                  $.help_feed = item.changeCoin;
-                }
-                if ($.time('yyyy-MM-dd') === timeFormat(item.createdDate) && item.changeEvent === 'visit_friend') {
-                  $.visit_friend = item.changeCoin;
-                }
-              }
-              console.log(`$.help_feed给好友喂食获得积分：${$.help_feed}`);
-              console.log(`$.visit_friend领取好友积分：${$.visit_friend}`);
-            }
-          } else {
-            console.log(`京豆api返回数据为空，请检查自身原因`)
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    })
-  })
-}
-function showMsg() {
-  return new Promise(resolve => {
-    $.stealFood = $.stealFood >= 0 ? `【偷好友狗粮】获取${$.stealFood}g狗粮\n` : `【偷好友狗粮】${$.stealFood}\n`;
-    $.stealFriendCoin = $.stealFriendCoin >= 0 ? `【领取好友积分】获得${$.stealFriendCoin}个\n` : `【领取好友积分】${$.stealFriendCoin}\n`;
-    $.helpFood = $.helpFood >= 0 ? `【给好友喂食】消耗${$.helpFood}g狗粮,获得积分${$.helpFood}个\n` : `【给好友喂食】${$.helpFood}\n`;
-    message += $.stealFriendCoin;
-    message += $.stealFood;
-    message += $.helpFood;
-    let flag;
-    if ($.getdata('jdJoyStealNotify')) {
-      flag = `${$.getdata('jdJoyStealNotify')}` === 'false';
-    } else {
-      flag = `${jdNotify}` === 'false';
-    }
-    if (flag) {
-      $.msg($.name, '', message);
-    } else {
-      $.log(`\n${message}\n`);
-    }
-    resolve()
-  })
-}
-function TotalBean() {
-  return new Promise(async resolve => {
-    const options = {
-      "url": `https://wq.jd.com/user/info/QueryJDUserInfo?sceneval=2`,
-      "headers": {
-        "Accept": "application/json,text/plain, */*",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-cn",
-        "Connection": "keep-alive",
-        "Cookie": cookie,
-        "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0")
-      }
-    }
-    $.post(options, (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (data) {
-            data = JSON.parse(data);
-            if (data['retcode'] === 13) {
-              $.isLogin = false; //cookie过期
-              return
+            url: `//jdjoy.jd.com/common/pet/h5/getFriends?itemsPerPage=20&currentPage=${currentPage * 1}&reqSource=h5`,	
+      // url: `//draw.jdfcloud.com/common/pet/getPetTaskConfig?reqSource=h5`,	
+      method: "GET",	
+      data: {},	
+      credentials: "include",	
+      header: {"content-type": "application/json"}	
+    }	
+    const url = "https:"+ taroRequest(opt)['url']	
+    const options = {	
+      url,	
+      headers: {	
+        'Cookie': cookie,	
+        'reqSource': 'h5',	
+        'Host': 'jdjoy.jd.com',	
+        'Connection': 'keep-alive',	
+        'Content-Type': 'application/json',	
+        'Referer': 'https://jdjoy.jd.com/pet/index',	
+        'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0"),	
+        'Accept-Language': 'zh-cn',	
+        'Accept-Encoding': 'gzip, deflate, br',	
+      },	
+      timeout: 10000	
+    }	
+    $.get(options, (err, resp, data) => {	
+      try {	
+        if (err) {	
+          console.log('\n京东宠汪汪: API查询请求失败 ‼️‼️')	
+          throw new Error(err);	
+        } else {	
+          // console.log('JSON.parse(data)', JSON.parse(data))	
+          if (data) {	
+            $.getFriendsData = JSON.parse(data);	
+          } else {	
+            console.log(`京豆api返回数据为空，请检查自身原因`)	
+          }	
+        }	
+      } catch (e) {	
+        $.logErr(e, resp);	
+      } finally {	
+        resolve();	
+      }	
+    })	
+  })	
+}	
+async function stealFriendCoin(friendPin) {	
+  // console.log(`进入好友 ${friendPin}的房间`)	
+  const enterFriendRoomRes = await enterFriendRoom(friendPin);	
+  if (enterFriendRoomRes) {	
+    const { friendHomeCoin } =  enterFriendRoomRes.data;	
+    if (friendHomeCoin > 0) {	
+      //领取好友积分	
+      console.log(`好友 ${friendPin}的房间可领取积分${friendHomeCoin}个\n`)	
+      const getFriendCoinRes = await getFriendCoin(friendPin);	
+      console.log(`偷好友积分结果：${JSON.stringify(getFriendCoinRes)}\n`)	
+      if (getFriendCoinRes && getFriendCoinRes.errorCode === 'coin_took_ok') {	
+        $.stealFriendCoin += getFriendCoinRes.data;	
+      }	
+    } else {	
+      console.log(`好友 ${friendPin}的房间暂无可领取积分\n`)	
+    }	
+  }	
+}	
+//进入好友房间	
+function enterFriendRoom(friendPin) {	
+  console.log(`\nfriendPin:: ${friendPin}\n`);	
+  return new Promise(async resolve => {	
+    $.get(taskUrl('enterFriendRoom', (friendPin)), (err, resp, data) => {	
+      try {	
+        if (err) {	
+          console.log('\n京东宠汪汪: API查询请求失败 ‼️‼️')	
+          console.log(`\n${JSON.stringify(err)}`)	
+          console.log(`\n${err}\n`)	
+          throw new Error(err);	
+        } else {	
+          // console.log('进入好友房间', JSON.parse(data))	
+          if (data) {	
+            data = JSON.parse(data);	
+            console.log(`可偷狗粮：${data.data.stealFood}`)	
+            console.log(`可偷积分：${data.data.friendHomeCoin}`)	
+          } else {	
+            console.log(`京豆api返回数据为空，请检查自身原因`)	
+          }	
+        }	
+      } catch (e) {	
+        $.logErr(e, resp);	
+      } finally {	
+        resolve(data);	
+      }	
+    })	
+  })	
+}	
+//收集好友金币	
+function getFriendCoin(friendPin) {	
+  return new Promise(resolve => {	
+    $.get(taskUrl('getFriendCoin', friendPin), (err, resp, data) => {	
+      try {	
+        if (err) {	
+          console.log('\n京东宠汪汪: API查询请求失败 ‼️‼️')	
+          throw new Error(err);	
+        } else {	
+          if (data) {	
+            data = JSON.parse(data);	
+          } else {	
+            console.log(`京豆api返回数据为空，请检查自身原因`)	
+          }	
+        }	
+      } catch (e) {	
+        $.logErr(e, resp);	
+      } finally {	
+        resolve(data);	
+      }	
+    })	
+  })	
+}	
+//帮好友喂食	
+function helpFeed(friendPin) {	
+  return new Promise(resolve => {	
+    $.get(taskUrl('helpFeed', friendPin), (err, resp, data) => {	
+      try {	
+        if (err) {	
+          console.log('\n京东宠汪汪: API查询请求失败 ‼️‼️')	
+          throw new Error(err);	
+        } else {	
+          if (data) {	
+            data = JSON.parse(data);	
+          } else {	
+            console.log(`京豆api返回数据为空，请检查自身原因`)	
+          }	
+        }	
+      } catch (e) {	
+        $.logErr(e, resp);	
+      } finally {	
+        resolve(data);	
+      }	
+    })	
+  })	
+}	
+//收集好友狗粮,已实现分享可得双倍狗粮功能	
+//①分享	
+function doubleRandomFood(friendPin) {	
+  return new Promise(resolve => {	
+    $.get(taskUrl('doubleRandomFood', friendPin), (err, resp, data) => {	
+      try {	
+        if (err) {	
+          console.log('\n京东宠汪汪: API查询请求失败 ‼️‼️')	
+          throw new Error(err);	
+        } else {	
+          // console.log('分享', JSON.parse(data))	
+          // $.appGetPetTaskConfigRes = JSON.parse(data);	
+        }	
+      } catch (e) {	
+        $.logErr(e, resp);	
+      } finally {	
+        resolve();	
+      }	
+    })	
+  })	
+}	
+//②领取双倍狗粮	
+function getRandomFood(friendPin) {	
+  return new Promise(resolve => {	
+    $.get(taskUrl('getRandomFood', friendPin), (err, resp, data) => {	
+      try {	
+        if (err) {	
+          console.log('\n京东宠汪汪: API查询请求失败 ‼️‼️')	
+          throw new Error(err);	
+        } else {	
+          if (data) {	
+            console.log(`领取双倍狗粮结果--${data}`)	
+            data = JSON.parse(data);	
+          } else {	
+            console.log(`京豆api返回数据为空，请检查自身原因`)	
+          }	
+        }	
+      } catch (e) {	
+        $.logErr(e, resp);	
+      } finally {	
+        resolve(data);	
+      }	
+    })	
+  })	
+}	
+function getCoinChanges() {	
+  return new Promise(resolve => {	
+    let opt = {	
+      url: `//jdjoy.jd.com/common/pet/getCoinChanges?changeDate=${Date.now()}&reqSource=h5`,	
+      // url: "//draw.jdfcloud.com/common/pet/getPetTaskConfig?reqSource=h5",	
+      method: "GET",	
+      data: {},	
+      credentials: "include",	
+      header: {"content-type": "application/json"}	
+    }	
+    const url = "https:"+ taroRequest(opt)['url']	
+    const options = {	
+      url,	
+      headers: {	
+        'Cookie': cookie,	
+        'reqSource': 'h5',	
+        'Host': 'jdjoy.jd.com',	
+        'Connection': 'keep-alive',	
+        'Content-Type': 'application/json',	
+        'Referer': 'https://jdjoy.jd.com/pet/index',	
+        'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0"),	
+        'Accept-Language': 'zh-cn',	
+        'Accept-Encoding': 'gzip, deflate, br',	
+      }	
+    }	
+    $.get(options, (err, resp, data) => {	
+      try {	
+        if (err) {	
+          console.log('\n京东宠汪汪: API查询请求失败 ‼️‼️')	
+          throw new Error(err);	
+        } else {	
+          // console.log('getCoinChanges', JSON.parse(data))	
+          if (data) {	
+            data = JSON.parse(data);	
+            if (data.datas && data.datas.length > 0) {	
+              $.help_feed = 0;	
+              $.visit_friend = 0;	
+              for (let item of data.datas) {	
+                if ($.time('yyyy-MM-dd') === timeFormat(item.createdDate) && item.changeEvent === 'help_feed'){	
+                  $.help_feed = item.changeCoin;	
+                }	
+                if ($.time('yyyy-MM-dd') === timeFormat(item.createdDate) && item.changeEvent === 'visit_friend') {	
+                  $.visit_friend = item.changeCoin;	
+                }	
+              }	
+              console.log(`$.help_feed给好友喂食获得积分：${$.help_feed}`);	
+              console.log(`$.visit_friend领取好友积分：${$.visit_friend}`);	
+            }	
+          } else {	
+            console.log(`京豆api返回数据为空，请检查自身原因`)	
+          }	
+        }	
+      } catch (e) {	
+        $.logErr(e, resp);	
+      } finally {	
+        resolve();	
+      }	
+    })	
+  })	
+}	
+function showMsg() {	
+  return new Promise(resolve => {	
+    $.stealFood = $.stealFood >= 0 ? `【偷好友狗粮】获取${$.stealFood}g狗粮\n` : `【偷好友狗粮】${$.stealFood}\n`;	
+    $.stealFriendCoin = $.stealFriendCoin >= 0 ? `【领取好友积分】获得${$.stealFriendCoin}个\n` : `【领取好友积分】${$.stealFriendCoin}\n`;	
+    $.helpFood = $.helpFood >= 0 ? `【给好友喂食】消耗${$.helpFood}g狗粮,获得积分${$.helpFood}个\n` : `【给好友喂食】${$.helpFood}\n`;	
+    message += $.stealFriendCoin;	
+    message += $.stealFood;	
+    message += $.helpFood;	
+    let flag;	
+    if ($.getdata('jdJoyStealNotify')) {	
+      flag = `${$.getdata('jdJoyStealNotify')}` === 'false';	
+    } else {	
+      flag = `${jdNotify}` === 'false';	
+    }	
+    if (flag) {	
+      $.msg($.name, '', message);	
+    } else {	
+      $.log(`\n${message}\n`);	
+    }	
+    resolve()	
+  })	
+}	
+function TotalBean() {	
+  return new Promise(async resolve => {	
+    const options = {	
+      "url": `https://wq.jd.com/user/info/QueryJDUserInfo?sceneval=2`,	
+      "headers": {	
+        "Accept": "application/json,text/plain, */*",	
+        "Content-Type": "application/x-www-form-urlencoded",	
+        "Accept-Encoding": "gzip, deflate, br",	
+        "Accept-Language": "zh-cn",	
+        "Connection": "keep-alive",	
+        "Cookie": cookie,	
+        "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",	
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0")	
+      }	
+    }	
+    $.post(options, (err, resp, data) => {	
+      try {	
+        if (err) {	
+          console.log(`${JSON.stringify(err)}`)	
+          console.log(`${$.name} API请求失败，请检查网路重试`)	
+        } else {	
+          if (data) {	
+            data = JSON.parse(data);	
+            if (data['retcode'] === 13) {	
+              $.isLogin = false; //cookie过期	
+              return	
             }
             if (data['retcode'] === 0) {
               $.nickName = (data['base'] && data['base'].nickname) || $.UserName;

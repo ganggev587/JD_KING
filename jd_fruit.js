@@ -14,13 +14,10 @@
 =========================Loon=============================
 [Script]
 cron "5 6-18/6 * * *" script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_fruit.js,tag=东东农场
-
 =========================Surge============================
 东东农场 = type=cron,cronexp="5 6-18/6 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_fruit.js
-
 =========================小火箭===========================
 东东农场 = type=cron,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_fruit.js, cronexpr="5 6-18/6 * * *", timeout=3600, enable=true
-
 jd免费水果 搬的https://github.com/liuxiaoyucc/jd-helper/blob/a6f275d9785748014fc6cca821e58427162e9336/fruit/fruit.js
 */
 const $ = new Env('东东农场');
@@ -41,7 +38,7 @@ let message = '', subTitle = '', option = {}, isFruitFinished = false;
 const retainWater = 100;//保留水滴大于多少g,默认100g;
 let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 let jdFruitBeanCard = false;//农场使用水滴换豆卡(如果出现限时活动时100g水换20豆,此时比浇水划算,推荐换豆),true表示换豆(不浇水),false表示不换豆(继续浇水),脚本默认是浇水
-let randomCount = $.isNode() ? 0 : 0;
+let randomCount = $.isNode() ? 0 : 5;
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html%22%20%7D`;
 !(async () => {
@@ -61,7 +58,6 @@ const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%2
       console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
       if (!$.isLogin) {
         $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-
         if ($.isNode()) {
           await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
         }
@@ -73,6 +69,9 @@ const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%2
       await shareCodesFormat();
       await jdFruit();
     }
+  }
+  if ($.isNode() && allMessage && $.ctrTemp) {
+    await notify.sendNotify(`${$.name}`, `${allMessage}`)
   }
 })()
     .catch((e) => {
@@ -244,9 +243,7 @@ async function predictionFruit() {
   }
   // 预测n天后水果课可兑换功能
   let waterTotalT = ($.farmInfo.farmUserPro.treeTotalEnergy - $.farmInfo.farmUserPro.treeEnergy - $.farmInfo.farmUserPro.totalEnergy) / 10;//一共还需浇多少次水
-
   let waterD = Math.ceil(waterTotalT / waterEveryDayT);
-
   message += `【预测】${waterD === 1 ? '明天' : waterD === 2 ? '后天' : waterD + '天之后'}(${timeFormat(24 * 60 * 60 * 1000 * waterD + Date.now())}日)可兑换水果🍉`
 }
 //浇水十次
@@ -488,7 +485,6 @@ async function turntableFarm() {
   if ($.initForTurntableFarmRes.code === '0') {
     //领取定时奖励 //4小时一次
     let {timingIntervalHours, timingLastSysTime, sysTime, timingGotStatus, remainLotteryTimes, turntableInfos} = $.initForTurntableFarmRes;
-
     if (!timingGotStatus) {
       console.log(`是否到了领取免费赠送的抽奖机会----${sysTime > (timingLastSysTime + 60*60*timingIntervalHours*1000)}`)
       if (sysTime > (timingLastSysTime + 60*60*timingIntervalHours*1000)) {
@@ -621,7 +617,6 @@ async function masterHelpShare() {
   let remainTimes = 3;//今日剩余助力次数,默认3次（京东农场每人每天3次助力机会）。
   let helpSuccessPeoples = '';//成功助力好友
   console.log(`格式化后的助力码::${JSON.stringify(newShareCodes)}\n`);
-
   for (let code of newShareCodes) {
     console.log(`开始助力京东账号${$.index} - ${$.nickName}的好友: ${code}`);
     if (!code) continue;
@@ -959,7 +954,6 @@ async function getFullCollectionReward() {
     })
   })
 }
-
 /**
  * 领取10次浇水奖励API
  */
@@ -999,7 +993,6 @@ async function gotStageAwardForFarm(type) {
 async function waterGoodForFarm() {
   await $.wait(1000);
   console.log('等待了1秒');
-
   const functionId = arguments.callee.name.toString();
   $.waterResult = await request(functionId);
 }
@@ -1012,11 +1005,9 @@ async function lotteryForTurntableFarm() {
   console.log('等待了2秒');
   $.lotteryRes = await request(arguments.callee.name.toString(), {type: 1, version: 4, channel: 1});
 }
-
 async function timingAwardForTurntableFarm() {
   $.timingAwardRes = await request(arguments.callee.name.toString(), {version: 4, channel: 1});
 }
-
 async function browserForTurntableFarm(type, adId) {
   if (type === 1) {
     console.log('浏览爆品会场');
@@ -1046,7 +1037,6 @@ async function lotteryMasterHelp() {
     channel: 1
   });
 }
-
 //领取5人助力后的额外奖励API
 async function masterGotFinishedTaskForFarm() {
   const functionId = arguments.callee.name.toString();
@@ -1093,13 +1083,11 @@ async function clockInInitForFarm() {
   const functionId = arguments.callee.name.toString();
   $.clockInInit = await request(functionId);
 }
-
 // 连续签到API
 async function clockInForFarm() {
   const functionId = arguments.callee.name.toString();
   $.clockInForFarmRes = await request(functionId, {"type": 1});
 }
-
 //关注，领券等API
 async function clockInFollowForFarm(id, type, step) {
   const functionId = arguments.callee.name.toString();
@@ -1122,12 +1110,10 @@ async function clockInFollowForFarm(id, type, step) {
     }
   }
 }
-
 // 领取连续签到7天的惊喜礼包API
 async function gotClockInGift() {
   $.gotClockInGiftRes = await request('clockInForFarm', {"type": 2})
 }
-
 //定时领水API
 async function gotThreeMealForFarm() {
   const functionId = arguments.callee.name.toString();
@@ -1199,7 +1185,6 @@ async function initForFarm() {
     })
   })
 }
-
 // 初始化任务列表API
 async function taskInitForFarm() {
   console.log('\n初始化任务列表')
@@ -1220,25 +1205,24 @@ async function waterFriendForFarm(shareCode) {
   const body = {"shareCode": shareCode, "version": 6, "channel": 1}
   $.waterFriendForFarmRes = await request('waterFriendForFarm', body);
 }
-async function showMsg() {	
-  let ctrTemp;	
-  if ($.isNode() && process.env.FRUIT_NOTIFY_CONTROL) {	
-    ctrTemp = `${process.env.FRUIT_NOTIFY_CONTROL}` === 'false';	
-  } else if ($.getdata('jdFruitNotify')) {	
-    ctrTemp = $.getdata('jdFruitNotify') === 'false';	
-  } else {	
-    ctrTemp = `${jdNotify}` === 'false';	
-  }	
-  if (ctrTemp) {	
-    $.msg($.name, subTitle, message, option);	
-    if ($.isNode()) {	
-      await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `${subTitle}\n${message}`);	
+async function showMsg() {
+  if ($.isNode() && process.env.FRUIT_NOTIFY_CONTROL) {
+    $.ctrTemp = `${process.env.FRUIT_NOTIFY_CONTROL}` === 'false';
+  } else if ($.getdata('jdFruitNotify')) {
+    $.ctrTemp = $.getdata('jdFruitNotify') === 'false';
+  } else {
+    $.ctrTemp = `${jdNotify}` === 'false';
+  }
+  if ($.ctrTemp) {
+    $.msg($.name, subTitle, message, option);
+    if ($.isNode()) {
+      allMessage += `${subTitle}\n${message}${$.index !== cookiesArr.length ? '\n\n' : ''}`;
+      // await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `${subTitle}\n${message}`);
     }
   } else {
     $.log(`\n${message}\n`);
   }
 }
-
 function timeFormat(time) {
   let date;
   if (time) {
@@ -1307,13 +1291,7 @@ function requireConfig() {
       })
       if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
     } else {
-      let cookiesData = $.getdata('CookiesJD') || "[]";	
-      cookiesData = jsonParse(cookiesData);	
-      cookiesArr = cookiesData.map(item => item.cookie);	
-      cookiesArr.reverse();	
-      cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);	
-      cookiesArr.reverse();	
-      cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
+      cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
     }
     console.log(`共${cookiesArr.length}个京东账号\n`)
     if ($.isNode()) {
@@ -1387,7 +1365,11 @@ function TotalBean() {
               $.isLogin = false; //cookie过期
               return
             }
-            $.nickName = data['base'].nickname;
+            if (data['retcode'] === 0) {
+              $.nickName = data['base'].nickname;
+            } else {
+              $.nickName = $.UserName
+            }
           } else {
             console.log(`京东服务器返回空数据`)
           }

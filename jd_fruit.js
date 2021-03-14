@@ -41,7 +41,7 @@ let message = '', subTitle = '', option = {}, isFruitFinished = false;
 const retainWater = 100;//保留水滴大于多少g,默认100g;
 let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 let jdFruitBeanCard = false;//农场使用水滴换豆卡(如果出现限时活动时100g水换20豆,此时比浇水划算,推荐换豆),true表示换豆(不浇水),false表示不换豆(继续浇水),脚本默认是浇水
-let randomCount = $.isNode() ? 0 : 5;
+let randomCount = $.isNode() ? 0 : 0;
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html%22%20%7D`;
 !(async () => {
@@ -73,9 +73,6 @@ const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%2
       await shareCodesFormat();
       await jdFruit();
     }
-  }
-  if ($.isNode() && allMessage && $.ctrTemp) {
-    await notify.sendNotify(`${$.name}`, `${allMessage}`)
   }
 })()
     .catch((e) => {
@@ -1223,19 +1220,19 @@ async function waterFriendForFarm(shareCode) {
   const body = {"shareCode": shareCode, "version": 6, "channel": 1}
   $.waterFriendForFarmRes = await request('waterFriendForFarm', body);
 }
-async function showMsg() {
-  if ($.isNode() && process.env.FRUIT_NOTIFY_CONTROL) {
-    $.ctrTemp = `${process.env.FRUIT_NOTIFY_CONTROL}` === 'false';
-  } else if ($.getdata('jdFruitNotify')) {
-    $.ctrTemp = $.getdata('jdFruitNotify') === 'false';
-  } else {
-    $.ctrTemp = `${jdNotify}` === 'false';
-  }
-  if ($.ctrTemp) {
-    $.msg($.name, subTitle, message, option);
-    if ($.isNode()) {
-      allMessage += `${subTitle}\n${message}${$.index !== cookiesArr.length ? '\n\n' : ''}`;
-      // await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `${subTitle}\n${message}`);
+async function showMsg() {	
+  let ctrTemp;	
+  if ($.isNode() && process.env.FRUIT_NOTIFY_CONTROL) {	
+    ctrTemp = `${process.env.FRUIT_NOTIFY_CONTROL}` === 'false';	
+  } else if ($.getdata('jdFruitNotify')) {	
+    ctrTemp = $.getdata('jdFruitNotify') === 'false';	
+  } else {	
+    ctrTemp = `${jdNotify}` === 'false';	
+  }	
+  if (ctrTemp) {	
+    $.msg($.name, subTitle, message, option);	
+    if ($.isNode()) {	
+      await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `${subTitle}\n${message}`);	
     }
   } else {
     $.log(`\n${message}\n`);

@@ -6,7 +6,7 @@ name: 「京东」粉丝互动
 on:
   workflow_dispatch:
   schedule:
-    - cron: '5 16 * * *'
+    - cron: '0 16 * * *'
   repository_dispatch:
     types: jd_fanslove
 jobs:

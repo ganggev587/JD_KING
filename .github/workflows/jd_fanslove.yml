@@ -1,14 +1,14 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: 「京东」摇一摇
+name: 「京东」粉丝互动
 
 on:
   workflow_dispatch:
   schedule:
     - cron: '5 16 * * *'
   repository_dispatch:
-    types: jd_shake
+    types: jd_fanslove
 jobs:
   build:
 
@@ -33,9 +33,9 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: '运行 「京东」摇一摇'
+      - name: '运行 「京东」粉丝互动'
         run: |
-          node jd_shake.js
+          node jd_fanslove.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}

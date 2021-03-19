@@ -6,7 +6,7 @@ name: 「活动」5G超级盲盒
 on:
   workflow_dispatch:
   schedule:
-    - cron: '5 18 * * *'
+    - cron: '7 0-23/4 * 3-4 *'
   repository_dispatch:
     types: z_super5g
 jobs:

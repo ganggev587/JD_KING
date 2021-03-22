@@ -14,10 +14,13 @@
 =========================Loon=============================
 [Script]
 cron "5 6-18/6 * * *" script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_fruit.js,tag=东东农场
+
 =========================Surge============================
 东东农场 = type=cron,cronexp="5 6-18/6 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_fruit.js
+
 =========================小火箭===========================
 东东农场 = type=cron,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_fruit.js, cronexpr="5 6-18/6 * * *", timeout=3600, enable=true
+
 jd免费水果 搬的https://github.com/liuxiaoyucc/jd-helper/blob/a6f275d9785748014fc6cca821e58427162e9336/fruit/fruit.js
 */
 const $ = new Env('东东农场');
@@ -25,20 +28,20 @@ let cookiesArr = [], cookie = '', jdFruitShareArr = [], isBox = false, notify, n
 //助力好友分享码(最多3个,否则后面的助力失败),原因:京东农场每人每天只有3次助力机会
 //此此内容是IOS用户下载脚本到本地使用，填写互助码的地方，同一京东账号的好友互助码请使用@符号隔开。
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
-let shareCodes = [ // 这个列表填入你要助力的好友的shareCode
-   //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开
-  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea@3a1bd385ca3f4d23b158614b288fae65@9f7c308ed28346dd855d8e2ebc2f7142',
-  //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开
-  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea@3a1bd385ca3f4d23b158614b288fae65@9f7c308ed28346dd855d8e2ebc2f7142',
-  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea@3a1bd385ca3f4d23b158614b288fae65@9f7c308ed28346dd855d8e2ebc2f7142',
-  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea@3a1bd385ca3f4d23b158614b288fae65@9f7c308ed28346dd855d8e2ebc2f7142',
-  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea@3a1bd385ca3f4d23b158614b288fae65@9f7c308ed28346dd855d8e2ebc2f7142'
-]
-let message = '', subTitle = '', option = {}, isFruitFinished = false;
-const retainWater = 100;//保留水滴大于多少g,默认100g;
-let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
-let jdFruitBeanCard = false;//农场使用水滴换豆卡(如果出现限时活动时100g水换20豆,此时比浇水划算,推荐换豆),true表示换豆(不浇水),false表示不换豆(继续浇水),脚本默认是浇水
-let randomCount = $.isNode() ? 0 : 0;
+let shareCodes = [ // 这个列表填入你要助力的好友的shareCode	
+   //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开	
+  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea@3a1bd385ca3f4d23b158614b288fae65@9f7c308ed28346dd855d8e2ebc2f7142',	
+  //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开	
+  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea@3a1bd385ca3f4d23b158614b288fae65@9f7c308ed28346dd855d8e2ebc2f7142',	
+  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea@3a1bd385ca3f4d23b158614b288fae65@9f7c308ed28346dd855d8e2ebc2f7142',	
+  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea@3a1bd385ca3f4d23b158614b288fae65@9f7c308ed28346dd855d8e2ebc2f7142',	
+  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea@3a1bd385ca3f4d23b158614b288fae65@9f7c308ed28346dd855d8e2ebc2f7142'	
+]	
+let message = '', subTitle = '', option = {}, isFruitFinished = false;	
+const retainWater = 100;//保留水滴大于多少g,默认100g;	
+let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送	
+let jdFruitBeanCard = false;//农场使用水滴换豆卡(如果出现限时活动时100g水换20豆,此时比浇水划算,推荐换豆),true表示换豆(不浇水),false表示不换豆(继续浇水),脚本默认是浇水	
+let randomCount = $.isNode() ? 0 : 5;
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html%22%20%7D`;
 !(async () => {
@@ -58,6 +61,7 @@ const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%2
       console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
       if (!$.isLogin) {
         $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+
         if ($.isNode()) {
           await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
         }
@@ -87,7 +91,7 @@ async function jdFruit() {
     if ($.farmInfo.farmUserPro) {
       // option['media-url'] = $.farmInfo.farmUserPro.goodsImage;
       message = `【水果名称】${$.farmInfo.farmUserPro.name}\n`;
-      console.log(`\n【京东账号${$.index}（${$.nickName || $.UserName}）的${$.name}好友互助码】${$.farmInfo.farmUserPro.shareCode}\n`);
+      console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.farmInfo.farmUserPro.shareCode}\n`);
       console.log(`\n【已成功兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`);
       message += `【已兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`;
       await masterHelpShare();//助力好友
@@ -243,7 +247,9 @@ async function predictionFruit() {
   }
   // 预测n天后水果课可兑换功能
   let waterTotalT = ($.farmInfo.farmUserPro.treeTotalEnergy - $.farmInfo.farmUserPro.treeEnergy - $.farmInfo.farmUserPro.totalEnergy) / 10;//一共还需浇多少次水
+
   let waterD = Math.ceil(waterTotalT / waterEveryDayT);
+
   message += `【预测】${waterD === 1 ? '明天' : waterD === 2 ? '后天' : waterD + '天之后'}(${timeFormat(24 * 60 * 60 * 1000 * waterD + Date.now())}日)可兑换水果🍉`
 }
 //浇水十次
@@ -485,6 +491,7 @@ async function turntableFarm() {
   if ($.initForTurntableFarmRes.code === '0') {
     //领取定时奖励 //4小时一次
     let {timingIntervalHours, timingLastSysTime, sysTime, timingGotStatus, remainLotteryTimes, turntableInfos} = $.initForTurntableFarmRes;
+
     if (!timingGotStatus) {
       console.log(`是否到了领取免费赠送的抽奖机会----${sysTime > (timingLastSysTime + 60*60*timingIntervalHours*1000)}`)
       if (sysTime > (timingLastSysTime + 60*60*timingIntervalHours*1000)) {
@@ -617,6 +624,7 @@ async function masterHelpShare() {
   let remainTimes = 3;//今日剩余助力次数,默认3次（京东农场每人每天3次助力机会）。
   let helpSuccessPeoples = '';//成功助力好友
   console.log(`格式化后的助力码::${JSON.stringify(newShareCodes)}\n`);
+
   for (let code of newShareCodes) {
     console.log(`开始助力京东账号${$.index} - ${$.nickName}的好友: ${code}`);
     if (!code) continue;
@@ -954,6 +962,7 @@ async function getFullCollectionReward() {
     })
   })
 }
+
 /**
  * 领取10次浇水奖励API
  */
@@ -993,6 +1002,7 @@ async function gotStageAwardForFarm(type) {
 async function waterGoodForFarm() {
   await $.wait(1000);
   console.log('等待了1秒');
+
   const functionId = arguments.callee.name.toString();
   $.waterResult = await request(functionId);
 }
@@ -1005,9 +1015,11 @@ async function lotteryForTurntableFarm() {
   console.log('等待了2秒');
   $.lotteryRes = await request(arguments.callee.name.toString(), {type: 1, version: 4, channel: 1});
 }
+
 async function timingAwardForTurntableFarm() {
   $.timingAwardRes = await request(arguments.callee.name.toString(), {version: 4, channel: 1});
 }
+
 async function browserForTurntableFarm(type, adId) {
   if (type === 1) {
     console.log('浏览爆品会场');
@@ -1037,6 +1049,7 @@ async function lotteryMasterHelp() {
     channel: 1
   });
 }
+
 //领取5人助力后的额外奖励API
 async function masterGotFinishedTaskForFarm() {
   const functionId = arguments.callee.name.toString();
@@ -1083,11 +1096,13 @@ async function clockInInitForFarm() {
   const functionId = arguments.callee.name.toString();
   $.clockInInit = await request(functionId);
 }
+
 // 连续签到API
 async function clockInForFarm() {
   const functionId = arguments.callee.name.toString();
   $.clockInForFarmRes = await request(functionId, {"type": 1});
 }
+
 //关注，领券等API
 async function clockInFollowForFarm(id, type, step) {
   const functionId = arguments.callee.name.toString();
@@ -1110,10 +1125,12 @@ async function clockInFollowForFarm(id, type, step) {
     }
   }
 }
+
 // 领取连续签到7天的惊喜礼包API
 async function gotClockInGift() {
   $.gotClockInGiftRes = await request('clockInForFarm', {"type": 2})
 }
+
 //定时领水API
 async function gotThreeMealForFarm() {
   const functionId = arguments.callee.name.toString();
@@ -1185,6 +1202,7 @@ async function initForFarm() {
     })
   })
 }
+
 // 初始化任务列表API
 async function taskInitForFarm() {
   console.log('\n初始化任务列表')
@@ -1223,6 +1241,7 @@ async function showMsg() {
     $.log(`\n${message}\n`);
   }
 }
+
 function timeFormat(time) {
   let date;
   if (time) {
@@ -1366,7 +1385,7 @@ function TotalBean() {
               return
             }
             if (data['retcode'] === 0) {
-              $.nickName = data['base'].nickname;
+              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
             } else {
               $.nickName = $.UserName
             }

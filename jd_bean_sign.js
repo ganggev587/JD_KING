@@ -6,7 +6,8 @@
 活动入口：各处的签到汇总
 Node.JS专用
 IOS软件用户请使用 https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
-更新时间：2021-3-10
+更新时间：2021-3-20
+推送通知默认简洁模式(多账号只发送一次)。如需详细通知，设置环境变量 JD_BEAN_SIGN_NOTIFY_SIMPLE 为false即可(N账号推送N次通知)。
 Modified From github https://github.com/ruicky/jd_sign_bot
  */
 const $ = new Env('京东多合一签到');
@@ -33,6 +34,7 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
+  process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE = process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE ? process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE : 'true';
   await requireConfig();
   // 下载最新代码
   await downFile();
@@ -45,7 +47,6 @@ if ($.isNode()) {
       $.nickName = '';
       await TotalBean();
       console.log(`*****************开始京东账号${$.index} ${$.nickName || $.UserName}京豆签到*******************\n`);
-      console.log(`⚠️⚠️⚠️⚠️目前Bark APP推送通知消息对推送内容长度有限制，如推送通知中包含此推送方式脚本会默认转换成简洁内容推送 ⚠️⚠️⚠️⚠️\n`)
       await changeFile(content);
       await execSign();
     }
@@ -95,7 +96,7 @@ async function execSign() {
       //不管哪个时区,这里得到的都是北京时间的时间戳;
       const UTC8 = new Date().getTime() + new Date().getTimezoneOffset()*60000 + 28800000;
       $.beanSignTime = timeFormat(UTC8);
-      console.log(`脚本执行完毕时间：${$.beanSignTime}`)
+      //console.log(`脚本执行完毕时间：${$.beanSignTime}`)
       if (BarkContent) {
         allMessage += `【京东号 ${$.index}】: ${$.nickName || $.UserName}\n【签到时间】:  ${$.beanSignTime}\n${BarkContent}${$.index !== cookiesArr.length ? '\n\n' : ''}`;
         if (!process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE || (process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE && process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE !== 'true')) {
@@ -104,7 +105,7 @@ async function execSign() {
       }
       //运行完成后，删除下载的文件
       await deleteFile(resultPath);//删除result.txt
-      console.log(`*****************京东账号${$.index} ${$.nickName || $.UserName}京豆签到完成*******************\n`);
+      console.log(`\n\n*****************京东账号${$.index} ${$.nickName || $.UserName}京豆签到完成*******************\n\n`);
     } else {
       console.log(`\nJD_DailyBonus.js文件不存在\n`)
     }
@@ -128,7 +129,7 @@ async function downFile () {
     url = 'https://cdn.jsdelivr.net/gh/NobyDa/Script@master/JD-DailyBonus/JD_DailyBonus.js';
   }
   try {
-    const options = { "timeout": 10000 }
+    const options = { }
     if (process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {
       const tunnel = require("tunnel");
       const agent = {
@@ -240,7 +241,12 @@ function downloadUrl(url = 'https://raw.githubusercontent.com/NobyDa/Script/mast
       try {
         if (err) {
           // console.log(`${JSON.stringify(err)}`)
-          console.log(`检测到您当前网络环境不能访问外网,将使用CDN下载JD_DailyBonus.js文件`)
+          console.log(`检测到您当前网络环境不能访问外网,将使用jsdelivr CDN下载JD_DailyBonus.js文件`);
+          await $.http.get({url: `https://purge.jsdelivr.net/gh/NobyDa/Script@master/JD-DailyBonus/JD_DailyBonus.js`, timeout: 10000}).then((resp) => {
+            if (resp.statusCode === 200) {
+              console.log(`JD_DailyBonus.js文件jsdelivr CDN缓存刷新成功`)
+            }
+          });
         } else {
           $.body = data;
         }

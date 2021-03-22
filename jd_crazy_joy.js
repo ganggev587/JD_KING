@@ -30,12 +30,12 @@ const JD_API_HOST = 'https://api.m.jd.com/';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
 let helpSelf = false // 循环助力，默认关闭
-let applyJdBean = 0; //疯狂的JOY京豆兑换，目前最小值为2000京豆，默认为 0 不开启京豆兑换
-let cookiesArr = [], cookie = '', message = '';
-const inviteCodes = [
-  'ltYyGqT1dVjUnAWGFmVg7w==@lhxBiLfqYu-Yjym3yk2g5A==@eESm0ma9ahkhBveUhQCNTQ==@XcWCLQQuMt0jViSKlRcFmqt9zd5YaBeE@vgml4j96IIXxeHyjK1qC4A==@0Mfly_OmNcOMELx32VKdfqt9zd5YaBeE@fymiNPbs0H-fdLqR1lnxnw==@htevhn9dLsy6bTiFWJ01pKt9zd5YaBeE',
-  'ltYyGqT1dVjUnAWGFmVg7w==@lhxBiLfqYu-Yjym3yk2g5A==@eESm0ma9ahkhBveUhQCNTQ==@XcWCLQQuMt0jViSKlRcFmqt9zd5YaBeE@vgml4j96IIXxeHyjK1qC4A==@0Mfly_OmNcOMELx32VKdfqt9zd5YaBeE@fymiNPbs0H-fdLqR1lnxnw==@htevhn9dLsy6bTiFWJ01pKt9zd5YaBeE'
-];
+let applyJdBean = 0; //疯狂的JOY京豆兑换，目前最小值为2000京豆，默认为 0 不开启京豆兑换	
+let cookiesArr = [], cookie = '', message = '';	
+const inviteCodes = [	
+  'ltYyGqT1dVjUnAWGFmVg7w==@lhxBiLfqYu-Yjym3yk2g5A==@eESm0ma9ahkhBveUhQCNTQ==@XcWCLQQuMt0jViSKlRcFmqt9zd5YaBeE@vgml4j96IIXxeHyjK1qC4A==@0Mfly_OmNcOMELx32VKdfqt9zd5YaBeE@fymiNPbs0H-fdLqR1lnxnw==@htevhn9dLsy6bTiFWJ01pKt9zd5YaBeE',	
+  'ltYyGqT1dVjUnAWGFmVg7w==@lhxBiLfqYu-Yjym3yk2g5A==@eESm0ma9ahkhBveUhQCNTQ==@XcWCLQQuMt0jViSKlRcFmqt9zd5YaBeE@vgml4j96IIXxeHyjK1qC4A==@0Mfly_OmNcOMELx32VKdfqt9zd5YaBeE@fymiNPbs0H-fdLqR1lnxnw==@htevhn9dLsy6bTiFWJ01pKt9zd5YaBeE'	
+];	
 const randomCount = $.isNode() ? 0 : 5;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 if ($.isNode()) {
@@ -209,7 +209,7 @@ function getUserInfo(code) {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data.success && data.data && data.data.userInviteCode) {
-              console.log(`\n【京东账号${$.index}（${$.nickName || $.UserName}）的${$.name}好友互助码】${data.data.userInviteCode}`)
+              console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.data.userInviteCode}`)
               $.selfCodes.push(data.data.userInviteCode)
               $.nextCode = data.data.userInviteCode
               message += `${data.data['nickName']}：${data.data['userTopLevelJoyId']}级JOY\n`;
@@ -702,7 +702,7 @@ function TotalBean() {
               return
             }
             if (data['retcode'] === 0) {
-              $.nickName = data['base'].nickname;
+              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
             } else {
               $.nickName = $.UserName
             }

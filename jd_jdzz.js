@@ -28,7 +28,7 @@ let helpAuthor=true; // 帮助作者
 const randomCount = $.isNode() ? 0 : 5;
 let jdNotify = true; // 是否关闭通知，false打开通知推送，true关闭通知推送
 //IOS等用户直接用NobyDa的jd cookie
-let cookiesArr = [], cookie = '', message;
+let cookiesArr = [], cookie = '', message = '', allMessage = '';
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -40,9 +40,10 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const inviteCodes = [
-  ``,
-  ``
+  `S5KkcAEdnkiyRSGOFwIhf@S5KkcJUVwjTa2QFOI9pJo@S5KkcJWlLvSGzaEuv56R3@S5KkcFFx_kwOwaXyv1ZNP@S5KkcB2xCoxeeRlud5qVY`,
+  `S5KkcAEdnkiyRSGOFwIhf@S5KkcJUVwjTa2QFOI9pJo@S5KkcJWlLvSGzaEuv56R3@S5KkcFFx_kwOwaXyv1ZNP@S5KkcB2xCoxeeRlud5qVY`
 ]
+let nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000);
 !(async () => {
   $.tuanList = []
   await requireConfig();
@@ -71,6 +72,12 @@ const inviteCodes = [
       }
       await shareCodesFormat()
       await jdWish()
+    }
+  }
+  if (allMessage) {
+    //NODE端,默认每月一日运行进行推送通知一次
+    if ($.isNode() && nowTimes.getDate() === 1 && (process.env.JDZZ_NOTIFY_CONTROL ? process.env.JDZZ_NOTIFY_CONTROL === 'false' : !!1)) {
+      await notify.sendNotify($.name, allMessage);
     }
   }
   for (let i = 0; i < cookiesArr.length; i++) {
@@ -128,14 +135,16 @@ async function jdWish() {
 function showMsg() {
   return new Promise(async resolve => {
     message += `本次获得${parseInt($.totalBeanNum) - $.nowBean}京豆，${parseInt($.totalNum) - $.nowNum}金币\n`
-    message += `累计获得${$.totalBeanNum}京豆，${$.totalNum}金币\n可兑换${$.totalNum / 10000}元无门槛红包`
+    message += `累计获得${$.totalBeanNum}京豆，${$.totalNum}金币\n可兑换${$.totalNum / 10000}元无门槛红包\n兑换入口:京东赚赚微信小程序->赚好礼->金币提现`
     if (parseInt($.totalBeanNum) - $.nowBean > 0) {
+      //IOS运行获得京豆大于0通知
       $.msg($.name, '', `京东账号${$.index} ${$.nickName}\n${message}`);
     } else {
       $.log(message)
     }
     // 云端大于10元无门槛红包时进行通知推送
-    if ($.isNode() && $.totalNum >= 1000000) await notify.sendNotify(`${$.name} - 京东账号${$.index} - ${$.nickName}`, `京东账号${$.index} ${$.nickName}\n当前金币：${$.totalNum}个\n可兑换无门槛红包：${parseInt($.totalNum) / 10000}元\n`,)
+    // if ($.isNode() && $.totalNum >= 1000000) await notify.sendNotify(`${$.name} - 京东账号${$.index} - ${$.nickName}`, `京东账号${$.index} ${$.nickName}\n当前金币：${$.totalNum}个\n可兑换无门槛红包：${parseInt($.totalNum) / 10000}元\n`,)
+    allMessage += `京东账号${$.index} ${$.nickName}\n当前金币：${$.totalNum}个\n可兑换无门槛红包：${parseInt($.totalNum) / 10000}元\n兑换入口:京东赚赚微信小程序->赚好礼->金币提现${$.index !== cookiesArr.length ? '\n\n' : ''}`;
     resolve();
   })
 }
@@ -285,7 +294,7 @@ function getTaskList(flag = false) {
             $.totalNum = data.data.totalNum
             $.totalBeanNum = data.data.totalBeanNum
             if (flag && $.taskList.filter(item => !!item && item['taskId']=== 3) && $.taskList.filter(item => !!item && item['taskId']=== 3).length) {
-              console.log(`\n【京东账号${$.index}（${$.nickName || $.UserName}）的${$.name}好友互助码】${$.taskList.filter(item => !!item && item['taskId']=== 3)[0]['itemId']}\n`);
+              console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.taskList.filter(item => !!item && item['taskId']=== 3)[0]['itemId']}\n`);
             }
           }
         }

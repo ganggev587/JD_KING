@@ -9,7 +9,7 @@ github： https://github.com/yangtingxiao
 const $ = new Env('京东抽奖机');
 main();
 async function main() {
-  $.http.get({url: `https://raw.sevencdn.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_lotteryMachine.js`}).then((resp) => {
+  $.http.get({url: `https://purge.jsdelivr.net/gh/yangtingxiao/QuantumultX@master/scripts/jd/jd_lotteryMachine.js`}).then((resp) => {
     if (resp.statusCode === 200) {
       console.log(`${$.name}CDN缓存刷新成功`)
     }
@@ -21,9 +21,9 @@ async function main() {
   }
   $.done()
 }
-function updateShareCodes(url = 'https://raw.sevencdn.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_lotteryMachine.js') {
+function updateShareCodes(url = 'https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_lotteryMachine.js') {
   return new Promise(resolve => {
-    $.get({url}, async (err, resp, data) => {
+    $.get({url, timeout: 10000}, async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -38,9 +38,9 @@ function updateShareCodes(url = 'https://raw.sevencdn.com/yangtingxiao/Quantumul
     })
   })
 }
-function updateShareCodesCDN(url = 'https://cdn.jsdelivr.net/gh/yangtingxiao/QuantumultX@master/scripts/jd/jd_lotteryMachine.js') {
+function updateShareCodesCDN(url = 'https://raw.fastgit.org/yangtingxiao/QuantumultX/master/scripts/jd/jd_lotteryMachine.js') {
   return new Promise(async resolve => {
-    $.get({url}, async (err, resp, data) => {
+    $.get({url, timeout: 10000}, async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)

@@ -86,23 +86,27 @@ const inviteCodes = [`T0205KkcAEdnkiyRSGOFwIhfCjVWnYaS5kRrbA`, 'T0205KkcJUVwjTa2
       $.done();
     })
 async function jdFactory() {
-  await jdfactory_getHomeData();
-  await helpFriends();
-  // $.newUser !==1 && $.haveProduct === 2，老用户但未选购商品
-  // $.newUser === 1新用户
-  if ($.newUser === 1) return
-  await jdfactory_collectElectricity();//收集产生的电量
-  await jdfactory_getTaskDetail();
-  await doTask();
-  await algorithm();//投入电力逻辑
-  await showMsg();
+  try {
+    await jdfactory_getHomeData();
+    await helpFriends();
+    // $.newUser !==1 && $.haveProduct === 2，老用户但未选购商品
+    // $.newUser === 1新用户
+    if ($.newUser === 1) return
+    await jdfactory_collectElectricity();//收集产生的电量
+    await jdfactory_getTaskDetail();
+    await doTask();
+    await algorithm();//投入电力逻辑
+    await showMsg();
+  } catch (e) {
+    $.logErr(e)
+  }
 }
 function showMsg() {
   return new Promise(resolve => {
     if (!jdNotify) {
       $.msg($.name, '', `${message}`);
     } else {
-      $.log(`京东账号${$.index}${$.nickName}\n${message}`);
+      $.log(`${message}`);
     }
     if (new Date().getHours() === 12) {
       $.msg($.name, '', `${message}`);
@@ -445,7 +449,7 @@ function jdfactory_getTaskDetail() {
               $.taskVos = data.data.result.taskVos;//任务列表
               $.taskVos.map(item => {
                 if (item.taskType === 14) {
-                  console.log(`\n【京东账号${$.index}（${$.nickName || $.UserName}）的${$.name}好友互助码】${item.assistTaskDetailVo.taskToken}\n`)
+                  console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${item.assistTaskDetailVo.taskToken}\n`)
                 }
               })
             }
@@ -730,7 +734,7 @@ function TotalBean() {
               return
             }
             if (data['retcode'] === 0) {
-              $.nickName = data['base'].nickname;
+              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
             } else {
               $.nickName = $.UserName
             }

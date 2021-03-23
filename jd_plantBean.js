@@ -33,21 +33,21 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
 //助力好友分享码(最多3个,否则后面的助力失败)
 //此此内容是IOS用户下载脚本到本地使用，填写互助码的地方，同一京东账号的好友互助码请使用@符号隔开。
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
-let shareCodes = [ // IOS本地脚本用户这个列表填入你要助力的好友的shareCode
-                   //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开
-  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',
-  //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开
-  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',
-  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',
-  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',
-  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',
+let shareCodes = [ // IOS本地脚本用户这个列表填入你要助力的好友的shareCode	
+                   //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开	
+  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',	
+  //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开	
+  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',	
+  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',	
+  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',	
+  'igefhjvuw6xvt37nfopazasd736hoexc7noicyi@nkiu2rskjyetaflli3vdqmsxf3rlkthnluyyxbq@t7obxmpebrxkdn7mbhopspvhar5hr3pdlyuftfq@e7lhibzb3zek2zojb2jp6wzsxnamwxvrvcdmqtq@o7eiltak46s2xhafluetpih5vrv6clgg4sllcpi@4npkonnsy7xi3ujlibvbfd54mgn7hksxfxzpfry@fn5sjpg5zdejmbncvb46675f2torudahvizq4xi',	
 ]
 let allMessage = ``;
 let currentRoundId = null;//本期活动id
 let lastRoundId = null;//上期id
 let roundList = [];
 let awardState = '';//上期活动的京豆是否收取
-let randomCount = $.isNode() ? 0 : 0;
+let randomCount = $.isNode() ? 0 : 5;
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -96,7 +96,7 @@ async function jdPlantBean() {
     if ($.plantBeanIndexResult.code === '0') {
       const shareUrl = $.plantBeanIndexResult.data.jwordShareInfo.shareUrl
       $.myPlantUuid = getParam(shareUrl, 'plantUuid')
-      console.log(`\n【京东账号${$.index}（${$.nickName || $.UserName}）的${$.name}好友互助码】${$.myPlantUuid}\n`);
+      console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.myPlantUuid}\n`);
       roundList = $.plantBeanIndexResult.data.roundList;
       currentRoundId = roundList[1].roundId;//本期的roundId
       lastRoundId = roundList[0].roundId;//上期的roundId
@@ -696,7 +696,7 @@ function TotalBean() {
               return
             }
             if (data['retcode'] === 0) {
-              $.nickName = data['base'].nickname;
+              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
             } else {
               $.nickName = $.UserName
             }

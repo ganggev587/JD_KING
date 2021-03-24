@@ -8,11 +8,14 @@
 [task_local]
 #签到领现金
 2 0-23/4 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_cash.js, tag=签到领现金, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+
 ================Loon==============
 [Script]
 cron "2 0-23/4 * * *" script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_cash.js,tag=签到领现金
+
 ===============Surge=================
 签到领现金 = type=cron,cronexp="2 0-23/4 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_cash.js
+
 ============小火箭=========
 签到领现金 = type=cron,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_cash.js, cronexpr="2 0-23/4 * * *", timeout=3600, enable=true
  */
@@ -24,10 +27,10 @@ let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭�
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 let helpAuthor = true;
-const randomCount = $.isNode() ? 0 : 5;	
-const inviteCodes = [
-  'eU9YLLXMAYRgmReknwxG@eU9YCbfbHp5HkSepqRZx@eU9YOK7UAKtBuAiOihdW@eU9YaL_mNaly9zrRmicU1w@eU9YO63FEaZjrymnuiJy@eU9Ya-i2Nagn8TjUw3sS3w@eU9YELL4NY1XkQimuTRx',
-  'eU9YLLXMAYRgmReknwxG@eU9YCbfbHp5HkSepqRZx@eU9YOK7UAKtBuAiOihdW@eU9YaL_mNaly9zrRmicU1w@eU9YO63FEaZjrymnuiJy@eU9Ya-i2Nagn8TjUw3sS3w@eU9YELL4NY1XkQimuTRx'
+const randomCount = $.isNode() ? 0 : 5;		
+const inviteCodes = [	
+  'eU9YLLXMAYRgmReknwxG@eU9YCbfbHp5HkSepqRZx@eU9YOK7UAKtBuAiOihdW@eU9YaL_mNaly9zrRmicU1w@eU9YO63FEaZjrymnuiJy@eU9Ya-i2Nagn8TjUw3sS3w@eU9YELL4NY1XkQimuTRx',	
+  'eU9YLLXMAYRgmReknwxG@eU9YCbfbHp5HkSepqRZx@eU9YOK7UAKtBuAiOihdW@eU9YaL_mNaly9zrRmicU1w@eU9YO63FEaZjrymnuiJy@eU9Ya-i2Nagn8TjUw3sS3w@eU9YELL4NY1XkQimuTRx'	
 ]
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -58,6 +61,7 @@ let allMessage = '';
       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
       if (!$.isLogin) {
         $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+
         if ($.isNode()) {
           await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
         }
@@ -67,7 +71,7 @@ let allMessage = '';
     }
   }
   if (allMessage) {
-    if ($.isNode()) await notify.sendNotify($.name, allMessage);
+    if ($.isNode() && (process.env.CASH_NOTIFY_CONTROL ? process.env.CASH_NOTIFY_CONTROL === 'false' : !!1)) await notify.sendNotify($.name, allMessage);
     $.msg($.name, '', allMessage);
   }
 })()
@@ -81,9 +85,9 @@ async function jdCash() {
   await index()
   await shareCodesFormat()
   await helpFriends()
-  await index(true)
   await getReward()
   await getReward('2')
+  await index(true)
   await showMsg()
 }
 function index(info=false) {
@@ -98,11 +102,15 @@ function index(info=false) {
             data = JSON.parse(data);
             if(data.code===0 && data.data.result){
               if(info){
-                message += `当前现金：${data.data.result.signMoney}`
+                if (message) {
+                  message += `当前现金：${data.data.result.signMoney}元`;
+                  allMessage += `京东账号${$.index}${$.nickName}\n${message}${$.index !== cookiesArr.length ? '\n\n' : ''}`;
+                }
+                message += `当前现金：${data.data.result.signMoney}元`;
                 return
               }
               // console.log(`您的助力码为${data.data.result.inviteCode}`)
-              console.log(`\n【京东账号${$.index}（${$.nickName || $.UserName}）的${$.name}好友互助码】${data.data.result.inviteCode}\n`);
+              console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.data.result.inviteCode}\n`);
               let helpInfo = {
                 'inviteCode': data.data.result.inviteCode,
                 'shareDate': data.data.result.shareDate
@@ -228,7 +236,7 @@ function getReward(source = 1) {
             data = JSON.parse(data);
             if (data.code === 0 && data.data.bizCode === 0) {
               console.log(`领奖成功，${data.data.result.shareRewardTip}【${data.data.result.shareRewardAmount}】`)
-              allMessage += `京东账号${$.index}${$.nickName}\n领奖成功，${data.data.result.shareRewardTip}【${data.data.result.shareRewardAmount}】${$.index !== cookiesArr.length ? '\n\n' : ''}`;
+              message += `领奖成功，${data.data.result.shareRewardTip}【${data.data.result.shareRewardAmount}元】\n`;
               // console.log(data.data.result.taskInfos)
             } else {
               // console.log(`领奖失败，${data.data.bizMsg}`)
@@ -243,6 +251,7 @@ function getReward(source = 1) {
     })
   })
 }
+
 function showMsg() {
   return new Promise(resolve => {
     if (!jdNotify) {
@@ -300,6 +309,7 @@ function shareCodesFormat() {
     resolve();
   })
 }
+
 function requireConfig() {
   return new Promise(resolve => {
     console.log(`开始获取${$.name}配置文件\n`);
@@ -358,7 +368,8 @@ function taskUrl(functionId, body = {}) {
     }
   }
 }
-function getAuthorShareCode(url = "https://gitee.com/lxk0301/updateTeam/raw/master/shareCodes/jd_updateCash.json") {
+
+function getAuthorShareCode(url = "https://gitee.com/shylocks/updateTeam/raw/main/jd_cash.json") {
   return new Promise(resolve => {
     $.get({url, headers:{
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"

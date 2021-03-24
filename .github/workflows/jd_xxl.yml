@@ -35,7 +35,7 @@ jobs:
           npm install
       - name: '运行 「京东」东东爱消除'
         run: |
-          node jd_xxlp.js
+          node jd_xxl.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}

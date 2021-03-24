@@ -29,20 +29,20 @@ let cookiesArr = [], cookie = '', jdPetShareArr = [], isBox = false, notify, new
 //助力好友分享码(最多5个,否则后面的助力失败),原因:京东农场每人每天只有四次助力机会
 //此此内容是IOS用户下载脚本到本地使用，填写互助码的地方，同一京东账号的好友互助码请使用@符号隔开。
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
-let shareCodes = [ // IOS本地脚本用户这个列表填入你要助力的好友的shareCode
-   //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开
-  'MTE1NDAxNzcwMDAwMDAwMzkxODEzOTU=@MTEzMzI0OTE0NTAwMDAwMDA0NDIzNDM5OQ==@MTE1NDAxNzYwMDAwMDAwNDA1MDI4MTk=@MTE1NDAxNzYwMDAwMDAwMzg4MTk0NzM=@MTAxODEyOTI4MDAwMDAwMDM5OTIwNDEx@MTE1NDUyMjEwMDAwMDAwNDIzNzQwMzc=@MTE1NDQ5OTIwMDAwMDAwNDM4NzI1OTk=',
-  //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开
-  'MTE1NDAxNzcwMDAwMDAwMzkxODEzOTU=@MTEzMzI0OTE0NTAwMDAwMDA0NDIzNDM5OQ==@MTE1NDAxNzYwMDAwMDAwNDA1MDI4MTk=@MTE1NDAxNzYwMDAwMDAwMzg4MTk0NzM=@MTAxODEyOTI4MDAwMDAwMDM5OTIwNDEx@MTE1NDUyMjEwMDAwMDAwNDIzNzQwMzc=@MTE1NDQ5OTIwMDAwMDAwNDM4NzI1OTk=',
-  'MTE1NDAxNzcwMDAwMDAwMzkxODEzOTU=@MTEzMzI0OTE0NTAwMDAwMDA0NDIzNDM5OQ==@MTE1NDAxNzYwMDAwMDAwNDA1MDI4MTk=@MTE1NDAxNzYwMDAwMDAwMzg4MTk0NzM=@MTAxODEyOTI4MDAwMDAwMDM5OTIwNDEx@MTE1NDUyMjEwMDAwMDAwNDIzNzQwMzc=@MTE1NDQ5OTIwMDAwMDAwNDM4NzI1OTk=',
-  'MTE1NDAxNzcwMDAwMDAwMzkxODEzOTU=@MTEzMzI0OTE0NTAwMDAwMDA0NDIzNDM5OQ==@MTE1NDAxNzYwMDAwMDAwNDA1MDI4MTk=@MTE1NDAxNzYwMDAwMDAwMzg4MTk0NzM=@MTAxODEyOTI4MDAwMDAwMDM5OTIwNDEx@MTE1NDUyMjEwMDAwMDAwNDIzNzQwMzc=@MTE1NDQ5OTIwMDAwMDAwNDM4NzI1OTk=',
-  'MTE1NDAxNzcwMDAwMDAwMzkxODEzOTU=@MTEzMzI0OTE0NTAwMDAwMDA0NDIzNDM5OQ==@MTE1NDAxNzYwMDAwMDAwNDA1MDI4MTk=@MTE1NDAxNzYwMDAwMDAwMzg4MTk0NzM=@MTAxODEyOTI4MDAwMDAwMDM5OTIwNDEx@MTE1NDUyMjEwMDAwMDAwNDIzNzQwMzc=@MTE1NDQ5OTIwMDAwMDAwNDM4NzI1OTk=',
+let shareCodes = [ // IOS本地脚本用户这个列表填入你要助力的好友的shareCode	
+   //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开	
+  'MTE1NDAxNzcwMDAwMDAwMzkxODEzOTU=@MTEzMzI0OTE0NTAwMDAwMDA0NDIzNDM5OQ==@MTE1NDAxNzYwMDAwMDAwNDA1MDI4MTk=@MTE1NDAxNzYwMDAwMDAwMzg4MTk0NzM=@MTAxODEyOTI4MDAwMDAwMDM5OTIwNDEx@MTE1NDUyMjEwMDAwMDAwNDIzNzQwMzc=@MTE1NDQ5OTIwMDAwMDAwNDM4NzI1OTk=',	
+  //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开	
+  'MTE1NDAxNzcwMDAwMDAwMzkxODEzOTU=@MTEzMzI0OTE0NTAwMDAwMDA0NDIzNDM5OQ==@MTE1NDAxNzYwMDAwMDAwNDA1MDI4MTk=@MTE1NDAxNzYwMDAwMDAwMzg4MTk0NzM=@MTAxODEyOTI4MDAwMDAwMDM5OTIwNDEx@MTE1NDUyMjEwMDAwMDAwNDIzNzQwMzc=@MTE1NDQ5OTIwMDAwMDAwNDM4NzI1OTk=',	
+  'MTE1NDAxNzcwMDAwMDAwMzkxODEzOTU=@MTEzMzI0OTE0NTAwMDAwMDA0NDIzNDM5OQ==@MTE1NDAxNzYwMDAwMDAwNDA1MDI4MTk=@MTE1NDAxNzYwMDAwMDAwMzg4MTk0NzM=@MTAxODEyOTI4MDAwMDAwMDM5OTIwNDEx@MTE1NDUyMjEwMDAwMDAwNDIzNzQwMzc=@MTE1NDQ5OTIwMDAwMDAwNDM4NzI1OTk=',	
+  'MTE1NDAxNzcwMDAwMDAwMzkxODEzOTU=@MTEzMzI0OTE0NTAwMDAwMDA0NDIzNDM5OQ==@MTE1NDAxNzYwMDAwMDAwNDA1MDI4MTk=@MTE1NDAxNzYwMDAwMDAwMzg4MTk0NzM=@MTAxODEyOTI4MDAwMDAwMDM5OTIwNDEx@MTE1NDUyMjEwMDAwMDAwNDIzNzQwMzc=@MTE1NDQ5OTIwMDAwMDAwNDM4NzI1OTk=',	
+  'MTE1NDAxNzcwMDAwMDAwMzkxODEzOTU=@MTEzMzI0OTE0NTAwMDAwMDA0NDIzNDM5OQ==@MTE1NDAxNzYwMDAwMDAwNDA1MDI4MTk=@MTE1NDAxNzYwMDAwMDAwMzg4MTk0NzM=@MTAxODEyOTI4MDAwMDAwMDM5OTIwNDEx@MTE1NDUyMjEwMDAwMDAwNDIzNzQwMzc=@MTE1NDQ5OTIwMDAwMDAwNDM4NzI1OTk=',	
 ]
 let message = '', subTitle = '', option = {};
 let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 let goodsUrl = '', taskInfoKey = [];
-let randomCount = $.isNode() ? 0 : 0;
+let randomCount = $.isNode() ? 0 : 5;
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -123,7 +123,7 @@ async function jdPet() {
         }
         return
       }
-      console.log(`\n【京东账号${$.index}（${$.nickName || $.UserName}）的${$.name}好友互助码】${$.petInfo.shareCode}\n`);
+      console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.petInfo.shareCode}\n`);
       await taskInit();
       if ($.taskInit.resultCode === '9999' || !$.taskInit.result) {
         console.log('初始化任务异常, 请稍后再试');
@@ -584,7 +584,7 @@ function TotalBean() {
               return
             }
             if (data['retcode'] === 0) {
-              $.nickName = data['base'].nickname;
+              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
             } else {
               $.nickName = $.UserName
             }

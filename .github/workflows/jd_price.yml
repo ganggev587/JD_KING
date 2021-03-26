@@ -6,7 +6,7 @@ name: 「京东」价格保护
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 18 * * *'
+    - cron: '11 0-23/8 * * *'
   repository_dispatch:
     types: jd_price
 jobs:

@@ -6,7 +6,7 @@ name: 「活动」跳一跳
 on:
   workflow_dispatch:
   schedule:
-    - cron: '5 18 * * *'
+    - cron: '5 0-23/6 * * *'
   repository_dispatch:
     types: z_mother_jump
 jobs:

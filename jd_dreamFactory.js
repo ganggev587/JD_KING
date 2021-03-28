@@ -950,7 +950,7 @@ async function tuanActivity() {
 }
 async function joinLeaderTuan() {
   $.tuanIdS = null;
-  if (!$.tuanIdS) await updateTuanIdsCDN('https://gitee.com/lxk0301/updateTeam/raw/master/shareCodes/jd_updateFactoryTuanId.json');
+  if (!$.tuanIdS) await updateTuanIdsCDN('https://ghproxy.com/https://raw.githubusercontent.com/ElsaKing/updateTeam/master/shareCodes/jd_updateFactoryTuanId.json');
   if ($.tuanIdS && $.tuanIdS.tuanIds) {
     for (let tuanId of $.tuanIdS.tuanIds) {
       if (!tuanId) continue
@@ -958,7 +958,7 @@ async function joinLeaderTuan() {
     }
   }
   $.tuanIdS = null;
-  if (!$.tuanIdS) await updateTuanIdsCDN('https://gitee.com/shylocks/updateTeam/raw/main/jd_updateFactoryTuanId.json');
+  if (!$.tuanIdS) await updateTuanIdsCDN('https://ghproxy.com/https://raw.githubusercontent.com/ElsaKing/updateTeam/master/shareCodes/jd_updateFactoryTuanId.json');
   if ($.tuanIdS && $.tuanIdS.tuanIds) {
     for (let tuanId of $.tuanIdS.tuanIds) {
       if (!tuanId) continue

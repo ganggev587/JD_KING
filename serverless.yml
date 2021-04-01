@@ -18,10 +18,10 @@ inputs:
   events: #触发器
     - timer: #签到
         parameters:
-          name: beansign
+          name: AnotherDay
           cronExpression: "0 0 0 * * * *"
           enable: true
-          argument: jd_bean_sign
+          argument: jd_bean_sign&monk_inter_shop_sign&jd_shop&jd_sgmh&jd_fanslove&jx_sign
     - timer: #摇京豆 #京东汽车兑换
         parameters:
           name: clublottery_carexchange

@@ -8,7 +8,7 @@ on:
   schedule:
     - cron: '5 16 * * *'
   repository_dispatch:
-    types: jd_entertainment
+    types: z_entertainment
 jobs:
   build:
 
@@ -35,7 +35,7 @@ jobs:
           npm install
       - name: '运行 「京东」百变大咖秀'
         run: |
-          node jd_entertainment.js
+          node z_entertainment.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}

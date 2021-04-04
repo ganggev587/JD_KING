@@ -28,6 +28,30 @@ inputs:
           cronExpression: "50/1 59 23,7,15 * * * *"
           enable: true
           argument: jd_joy_reward
+    - timer: #京东手机狂欢城
+        parameters:
+          name: CarnivalCity
+          cronExpression: "0 0 0-18/3 * * * *"
+          enable: true
+          argument: jd_carnivalcity
+    - timer: #争分夺秒新一天
+        parameters:
+          name: NewDay
+          cronExpression: "0 0 0 * * * *"
+          enable: true
+          argument: jd_bean_sign&jd_shop&jd_sgmh
+    - timer: #店铺签到
+        parameters:
+          name: ShopSign
+          cronExpression: "0 0 0 * * * *"
+          enable: true
+          argument: monk_inter_shop_sign
+    - timer: #杂七杂八
+        parameters:
+          name: Miscellaneous
+          cronExpression: "0 0 0 * * * *"
+          enable: true
+          argument: z_wish&z_xmf&jd_club_lottery&jd_rankingList&jd_lotteryMachine
   environment: #  环境变量
     variables: #  环境变量对象
       AAA: BBB # 不要删除，用来格式化对齐追加的变量的

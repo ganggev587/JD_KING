@@ -25,7 +25,7 @@ inputs:
     - timer: #宠汪汪积分兑换奖品
         parameters:
           name: RedeemJoyReward
-          cronExpression: "50/1 59 7 * * * *"
+          cronExpression: "50/1 59 23,7,15 * * * *"
           enable: true
           argument: jd_joy_reward
   environment: #  环境变量

@@ -52,6 +52,12 @@ inputs:
           cronExpression: "0 0 0 * * * *"
           enable: true
           argument: z_wish&z_xmf&jd_club_lottery&jd_rankingList&jd_lotteryMachine
+    - timer: #华硕-爱奇艺
+        parameters:
+          name: Asus-iQiyi
+          cronExpression: "0 0 0 * * * *"
+          enable: true
+          argument: z_asus_iqiyi
   environment: #  环境变量
     variables: #  环境变量对象
       AAA: BBB # 不要删除，用来格式化对齐追加的变量的

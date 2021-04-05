@@ -145,6 +145,7 @@ const sleep = ms => new Promise(res => setTimeout(res, ms));
     );
   } */
 
+  /* console.log(`更新触发器`);
   // 更新触发器
   console.log(`去更新触发器`);
   let inputYML = "serverless.yml";
@@ -167,7 +168,7 @@ const sleep = ms => new Promise(res => setTimeout(res, ms));
         process.env.action++;
       }
     );
-  }
+  } */
 })()
   .catch(e => console.log(e))
   .finally(async () => {

@@ -18,31 +18,31 @@ inputs:
   events: #触发器
     - timer: #东东超市兑换奖品
         parameters:
-          name: RedeemSupermarket
+          name: Redeem-Supermarket
           cronExpression: "55/1 59 23 * * * *"
           enable: true
           argument: jd_blueCoin
     - timer: #宠汪汪积分兑换奖品
         parameters:
-          name: RedeemJoyReward
+          name: Redeem-Joy-Reward
           cronExpression: "55/1 59 23,7,15 * * * *"
           enable: true
           argument: jd_joy_reward
     - timer: #京东手机狂欢城
         parameters:
-          name: CarnivalCity
+          name: Carnival-City
           cronExpression: "0 0 0-18/3 * * * *"
           enable: true
           argument: jd_carnivalcity
     - timer: #争分夺秒新一天
         parameters:
-          name: NewDay
+          name: New-Day
           cronExpression: "0 0 0 * * * *"
           enable: true
           argument: jd_bean_sign&jd_shop&jd_sgmh
     - timer: #店铺签到
         parameters:
-          name: ShopSign
+          name: Shop-Sign
           cronExpression: "0 0 0 * * * *"
           enable: true
           argument: monk_inter_shop_sign
@@ -58,6 +58,18 @@ inputs:
           cronExpression: "0 0 0 * * * *"
           enable: true
           argument: z_asus_iqiyi
+    - timer: #锦鲤红包
+        parameters:
+          name: Red-Packet
+          cronExpression: "30 1 1,2,23 * * * *"
+          enable: true
+          argument: jd_redPacket_new
+    - timer: #十元街/赚京豆小程序
+        parameters:
+          name: SYJ
+          cronExpression: "30 1 1,2,22 * * * *"
+          enable: true
+          argument: jd_syj_new
   environment: #  环境变量
     variables: #  环境变量对象
       AAA: BBB # 不要删除，用来格式化对齐追加的变量的

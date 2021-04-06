@@ -51,7 +51,7 @@ inputs:
           name: Miscellaneous
           cronExpression: "0 0 0 * * * *"
           enable: true
-          argument: z_xmf&jd_club_lottery&jd_rankingList&jd_lotteryMachine
+          argument: z_xmf&jd_club_lottery&jd_rankingList&jd_lotteryMachine&z_marketLottery
     - timer: #华硕-爱奇艺
         parameters:
           name: Asus-iQiyi

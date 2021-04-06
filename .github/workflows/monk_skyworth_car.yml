@@ -8,7 +8,7 @@ on:
   schedule:
     - cron: '5 18 * * *'
   repository_dispatch:
-    types: monk_skyworth
+    types: monk_skyworth_car
 jobs:
   build:
 
@@ -35,7 +35,7 @@ jobs:
           npm install
       - name: '运行 「活动」创维408'
         run: |
-          node monk_skyworth.js
+          node monk_skyworth_car.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}

@@ -19,13 +19,13 @@ inputs:
     - timer: #东东超市兑换奖品
         parameters:
           name: RedeemSupermarket
-          cronExpression: "50/1 59 23 * * * *"
+          cronExpression: "55/1 59 23 * * * *"
           enable: true
           argument: jd_blueCoin
     - timer: #宠汪汪积分兑换奖品
         parameters:
           name: RedeemJoyReward
-          cronExpression: "50/1 59 23,7,15 * * * *"
+          cronExpression: "55/1 59 23,7,15 * * * *"
           enable: true
           argument: jd_joy_reward
     - timer: #京东手机狂欢城
@@ -51,7 +51,7 @@ inputs:
           name: Miscellaneous
           cronExpression: "0 0 0 * * * *"
           enable: true
-          argument: z_wish&z_xmf&jd_club_lottery&jd_rankingList&jd_lotteryMachine
+          argument: z_xmf&jd_club_lottery&jd_rankingList&jd_lotteryMachine
     - timer: #华硕-爱奇艺
         parameters:
           name: Asus-iQiyi

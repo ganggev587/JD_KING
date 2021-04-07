@@ -19,13 +19,13 @@ inputs:
     - timer: #东东超市兑换奖品
         parameters:
           name: Redeem-Supermarket
-          cronExpression: "55/1 59 23 * * * *"
+          cronExpression: "52/1 59 23 * * * *"
           enable: true
           argument: jd_blueCoin
     - timer: #宠汪汪积分兑换奖品
         parameters:
           name: Redeem-Joy-Reward
-          cronExpression: "55/1 59 23,7,15 * * * *"
+          cronExpression: "52/1 59 23,7,15 * * * *"
           enable: true
           argument: jd_joy_reward
     - timer: #京东手机狂欢城
@@ -34,30 +34,36 @@ inputs:
           cronExpression: "0 0 0-18/3 * * * *"
           enable: true
           argument: jd_carnivalcity
-    - timer: #争分夺秒新一天
+    - timer: #争分夺秒新一天-1
         parameters:
-          name: New-Day
+          name: New-Day-1
           cronExpression: "0 0 0 * * * *"
           enable: true
-          argument: jd_bean_sign&jd_shop&jd_sgmh
+          argument: jd_bean_sign
+    - timer: #争分夺秒新一天-2
+        parameters:
+          name: New-Day-2
+          cronExpression: "0 0 0 * * * *"
+          enable: true
+          argument: jd_shop&jd_sgmh
     - timer: #店铺签到
         parameters:
           name: Shop-Sign
           cronExpression: "0 0 0 * * * *"
           enable: true
           argument: monk_inter_shop_sign
-    - timer: #杂七杂八
+    - timer: #杂七杂八-1
         parameters:
-          name: Miscellaneous
+          name: Miscellaneous-1
           cronExpression: "0 0 0 * * * *"
           enable: true
-          argument: z_xmf&jd_club_lottery&jd_rankingList&jd_lotteryMachine&z_marketLottery
-    - timer: #华硕-爱奇艺
+          argument: z_xmf&jd_club_lottery&jd_rankingList
+    - timer: #杂七杂八-2
         parameters:
-          name: Asus-iQiyi
+          name: Miscellaneous-2
           cronExpression: "0 0 0 * * * *"
           enable: true
-          argument: z_asus_iqiyi
+          argument: jd_lotteryMachine&z_marketLottery
     - timer: #锦鲤红包
         parameters:
           name: Red-Packet
@@ -67,7 +73,7 @@ inputs:
     - timer: #十元街/赚京豆小程序
         parameters:
           name: SYJ
-          cronExpression: "30 1 1,2,22 * * * *"
+          cronExpression: "0 5 1,23 * * * *"
           enable: true
           argument: jd_syj_new
   environment: #  环境变量

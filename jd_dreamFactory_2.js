@@ -14,7 +14,7 @@ const helpAuthor = true;
 const notify = $.isNode() ? require('./sendNotify') : '';
 let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 const randomCount = $.isNode() ? 0 : 5;
-let tuanActiveId = `i9ideMF_BUOdVtmbe1pSeA==`;
+let tuanActiveId = `0_pzMedR7KhclCkMIgkTkg==`;
 const jxOpenUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://wqsd.jd.com/pingou/dream_factory/index.html%22%20%7D`;
 let cookiesArr = [], cookie = '', message = '', allMessage = '';
 const inviteCodes = ['1R28eKJ0z1qLwspHMjWArw==@mszcPJx5yGlfPtmguvh8tA==@UsMi4askQRfQFNwX6hvZdw==@rUKe719u1uLtysxde30Dyg==@OHPZC_iRV8tMOwaTOyDg8g==@4J3zGgRKLp2GfK7_Mo95Qw==@1wAOJ8UcOYBPyYKoz3Fy5A==@Hfs5JI-xtePXKY5aRmCZJg=='

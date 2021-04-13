@@ -1,36 +1,62 @@
 /*
 超级直播间红包雨
-下一场直播时间:03月23日  20:00
+下一场直播时间:04月14日  20:00，ID：3861625
+30,31 20-23/1 14 4 *
+下一场直播时间:04月13日  20:00，ID：3866703
+30,31 20-23/1 13 4 *
 脚本兼容: Quantumult X, Surge, Loon, JSBox, Node.js
 ==============Quantumult X==============
 [task_local]
 #超级直播间红包雨
-30,31 20-23/1 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_live_redrain.js, tag=超级直播间红包雨, enabled=true
+0,30,31 20-23/1 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_live_redrain.js, tag=超级直播间红包雨, enabled=true
 
 ==============Loon==============
 [Script]
-cron "30,31 20-23/1 * * *" script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_live_redrain.js,tag=超级直播间红包雨
+cron "0,30,31 20-23/1 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_live_redrain.js,tag=超级直播间红包雨
 
 ================Surge===============
-超级直播间红包雨 = type=cron,cronexp="30,31 20-23/1 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_live_redrain.js
+超级直播间红包雨 = type=cron,cronexp="0,30,31 20-23/1 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_live_redrain.js
 
 ===============小火箭==========
-超级直播间红包雨 = type=cron,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_live_redrain.js, cronexpr="30,31 20-23/1 * * *", timeout=3600, enable=true
+超级直播间红包雨 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_live_redrain.js, cronexpr="0,30,31 20-23/1 * * *", timeout=3600, enable=true
 */
 const $ = new Env('超级直播间红包雨');
 let allMessage = '';
 let bodyList = {
-  '19': {
-    url: 'https://api.m.jd.com/client.action?functionId=liveActivityV842&uuid=8888888&client=apple&clientVersion=9.4.1&st=1615900663048&sign=3dfbdf3e3f0e0701c8c4070c14b4f5b0&sv=100',
-    body: 'body=%7B%22liveId%22%3A%223704156%22%7D'
+  "13": {
+    "url": "https://api.m.jd.com/client.action?functionId=liveActivityV946&uuid=8888888&client=apple&clientVersion=9.4.1&st=1617851035011&sign=ce3542c09121b1474c0beba1413fec13&sv=112",
+    "body": "body=%7B%22liveId%22%3A%223866703%22%7D"
   },
-  "23": {
-    "url": "https://api.m.jd.com/client.action?functionId=liveActivityV842&uuid=8888888&client=apple&clientVersion=9.4.1&st=1616121346006&sign=27acd12da7b5d5c1c3afe67d81490142&sv=100",
-    "body": "body=%7B%22liveId%22%3A%223719359%22%7D"
+  "14": {
+    "url": "https://api.m.jd.com/client.action?functionId=liveActivityV946&uuid=8888888&client=apple&clientVersion=9.4.1&st=1617851034027&sign=811dcdb1ef6f4e775f7ccf4f42d73a7a&sv=111",
+    "body": "body=%7B%22liveId%22%3A%223861625%22%7D"
   }
 }
 let ids = {
-
+  '0': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '1': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '2': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '3': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '4': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '5': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '6': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '7': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '8': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '9': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '10': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '11': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '12': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '13': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '14': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '15': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '16': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '17': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '18': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '19': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '20': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '21': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '22': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN', 
+  '23': 'RRA2CnovS9KVTTwBD9NV7o4kc3P8PTN'
 }
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -52,6 +78,9 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
   }
+  console.log('下一场直播时间:04月14日  20:00，ID：3861625\n' +
+      '30,31 20-23/1 14 4 *\n' +
+      '下一场直播时间:04月13日  20:00，ID：3866703')
   await getRedRain();
 
   let nowTs = new Date().getTime()
@@ -63,7 +92,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
       $.log(`本地红包雨配置获取成功`)
     } else{
       $.log(`无法从本地读取配置，请检查运行时间(注：非红包雨时间执行出现此提示请忽略！！！！！！！！！！！)`)
-      $.log(`下一场直播时间:03月23日  20:00，非红包雨期间出现上面提示请忽略。红包雨期间会正常，此脚本提issue打死！！！！！！！！！！！)`)
+      $.log(`非红包雨期间出现上面提示请忽略。红包雨期间会正常，此脚本提issue打死！！！！！！！！！！！)`)
       return
     }
   } else{
@@ -72,7 +101,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
+      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
       $.index = i + 1;
       $.isLogin = true;
       $.nickName = '';
@@ -173,7 +202,7 @@ function receiveRedRain() {
               console.log(`领取成功，获得${JSON.stringify(data.lotteryResult)}`)
               // message+= `领取成功，获得${JSON.stringify(data.lotteryResult)}\n`
               message += `领取成功，获得 ${(data.lotteryResult.jPeasList[0].quantity)}京豆`
-              allMessage += `京东账号${$.index}${$.nickName}\n领取成功，获得 ${(data.lotteryResult.jPeasList[0].quantity)}京豆${$.index !== cookiesArr.length ? '\n\n' : ''}`;
+              allMessage += `京东账号${$.index}${$.nickName || $.UserName}\n领取成功，获得 ${(data.lotteryResult.jPeasList[0].quantity)}京豆${$.index !== cookiesArr.length ? '\n\n' : ''}`;
             } else if (data.subCode === '8') {
               console.log(`今日次数已满`)
               message += `领取失败，本场已领过`;
@@ -203,7 +232,7 @@ function taskGetUrl(url, body) {
       "Host": "api.m.jd.com",
       "Referer": `https://h5.m.jd.com/active/redrain/index.html?id=${$.activityId}&lng=0.000000&lat=0.000000&sid=&un_area=`,
       "Cookie": cookie,
-      "User-Agent": "JD4iPhone/9.3.5 CFNetwork/1209 Darwin/20.2.0"
+      "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
     }
   }
 }
@@ -235,7 +264,7 @@ function taskUrl(function_id, body = {}) {
       "Host": "api.m.jd.com",
       "Referer": `https://h5.m.jd.com/active/redrain/index.html?id=${$.activityId}&lng=0.000000&lat=0.000000&sid=&un_area=`,
       "Cookie": cookie,
-      "User-Agent": "JD4iPhone/9.3.5 CFNetwork/1209 Darwin/20.2.0"
+      "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
     }
   }
 }
@@ -252,7 +281,7 @@ function TotalBean() {
         "Connection": "keep-alive",
         "Cookie": cookie,
         "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : "JD4iPhone/9.3.5 CFNetwork/1209 Darwin/20.2.0") : ($.getdata('JDUA') ? $.getdata('JDUA') : "JD4iPhone/9.3.5 CFNetwork/1209 Darwin/20.2.0")
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
       }
     }
     $.post(options, (err, resp, data) => {

@@ -33,7 +33,7 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: '运行 【京喜工厂】'
+      - name: '运行 「京喜」京喜工厂'
         run: |
           node jd_dreamFactory.js
         env:

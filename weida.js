@@ -1,21 +1,3 @@
-/*
-“韧”性探索 空降好礼
-活动地址：https://lzdz-isv.isvjcloud.com/dingzhi/vinda/marsrover/activity/?activityId=2103100000168330&shareUuid=&adsource=null&shareuserid4minipg=&shopid=&lng=0.000000&lat=0.000000&sid=&un_area=
-活动日期：2021-04-05 至 2021-04-30
-更新地址：https://raw.githubusercontent.com/monk-coder/dust/dust/member/monk_vinda.js
-环境变量： export MONK_VINDA_ADD2CAR = 'false'//可向师傅申请告假，不参与选购贡品
-============Quantumultx===============
-[task_local]
-#“韧”性探索 空降好礼
-15 08 5-30 4 * https://raw.githubusercontent.com/monk-coder/dust/member/monk_vinda.js.js, tag=“韧”性探索 空降好礼,  enabled=true
-================Loon==============
-[Script]
-cron "15 08 5-30 4 *" script-path=https://raw.githubusercontent.com/monk-coder/dust/member/monk_vinda.js.js,tag=“韧”性探索 空降好礼
-===============Surge=================
-“韧”性探索 空降好礼 = type=cron,cronexp="15 08 5-30 4 *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/monk-coder/dust/member/monk_vinda.js.js
-============小火箭=========
-“韧”性探索 空降好礼 = type=cron,script-path=https://raw.githubusercontent.com/monk-coder/dust/member/monk_vinda.js.js, cronexpr="15 08 5-30 4 *", timeout=3600, enable=true
-*/
 const $ = new Env("Vinda-维达品牌日");
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';

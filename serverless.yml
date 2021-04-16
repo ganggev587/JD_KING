@@ -22,12 +22,6 @@ inputs:
           cronExpression: "0-5 0,30,31 20-23/1 * * * *"
           enable: true
           argument: jd_live_redrain.js 
-#    - timer: #东东超市兑换奖品
-#        parameters:
-#          name: Redeem-Supermarket
-#          cronExpression: "52/1 59 23 * * * *"
-#          enable: true
-#          argument: jd_blueCoin
     - timer: #宠汪汪积分兑换奖品
         parameters:
           name: Redeem-Joy-Reward

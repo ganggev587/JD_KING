@@ -19,7 +19,7 @@ inputs:
     - timer: #超级直播间红包雨
         parameters:
           name: Live-RedRain
-          cronExpression: "0-5 0,30,31 20-23/1 * * * *"
+          cronExpression: "0-5 0,30,31 20-23/1 17,20 4 * *"
           enable: true
           argument: jd_live_redrain.js 
     - timer: #宠汪汪积分兑换奖品

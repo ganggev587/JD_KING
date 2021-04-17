@@ -21,7 +21,7 @@ inputs:
           name: Live-RedRain
           cronExpression: "0-5 0,30,31 20-23/1 17,20 4 * *"
           enable: true
-          argument: jd_live_redrain.js 
+          argument: jd_live_redrain
     - timer: #宠汪汪积分兑换奖品
         parameters:
           name: Redeem-Joy-Reward

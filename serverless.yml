@@ -28,12 +28,12 @@ inputs:
           cronExpression: "52/1 59 23,7,15 * * * *"
           enable: true
           argument: jd_joy_reward
-    - timer: #京东手机狂欢城
+    - timer: #东东超市兑换奖品
         parameters:
-          name: Carnival-City
-          cronExpression: "0 0 0-18/3 * * * *"
+          name: Redeem-Supermarket
+          cronExpression: "52/1 59 23 * * * *"
           enable: true
-          argument: jd_carnivalcity
+          argument: jd_blueCoin
     - timer: #争分夺秒新一天-1
         parameters:
           name: New-Day-1

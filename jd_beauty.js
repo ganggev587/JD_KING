@@ -124,7 +124,7 @@ async function mr() {
     // 获得原料生产列表
     console.log(`========原料生产信息========`)
     for (let pos of positionList) {
-      client.send(`{"msg":{"type":"action","args":{"position":"${pos}"},"action":"produce_position_info"}}`)
+      client.send(`{"msg":{"type":"action","args":{"position":"${pos}"},"action":"produce_position_info_v2"}}`)
       // await $.wait(500)
     }
 
@@ -254,12 +254,12 @@ async function mr() {
             console.log(`任务完成失败，错误信息${vo.msg}`)
           }
           break
-        case "produce_position_info":
+        case "produce_position_info_v2":
           if (vo.data.material_name !== '') {
             console.log(`【${vo.data.position}】上正在生产【${vo.data.material_name}】，可收取 ${vo.data.produce_num} 份`)
             if (vo.data.produce_num > 0) {
               console.log(`剩余份数大于0份，去收取`)
-              client.send(`{"msg":{"type":"action","args":{"position":"${vo.data.position}","replace_material":false},"action":"material_fetch"}}`)
+              client.send(`{"msg":{"type":"action","args":{"position":"${vo.data.position}","replace_material":false},"action":"material_fetch_v2"}}`)
               client.send(`{"msg":{"type":"action","args":{},"action":"to_employee"}}`)
               $.pos.push(vo.data.position)
             }
@@ -274,12 +274,12 @@ async function mr() {
               console.log()
               if (ma) {
                 console.log(`去生产${ma.name}`)
-                client.send(`{"msg":{"type":"action","args":{"position":"${vo.data.position}","material_id":${ma.id}},"action":"material_produce"}}`)
+                client.send(`{"msg":{"type":"action","args":{"position":"${vo.data.position}","material_id":${ma.id}},"action":"material_produce_v2"}}`)
               } else {
                 ma = $.material.base[1]['items'][positionList.indexOf(vo.data.position)]
                 if (ma) {
                   console.log(`去生产${ma.name}`)
-                  client.send(`{"msg":{"type":"action","args":{"position":"${vo.data.position}","material_id":${ma.id}},"action":"material_produce"}}`)
+                  client.send(`{"msg":{"type":"action","args":{"position":"${vo.data.position}","material_id":${ma.id}},"action":"material_produce_v2"}}`)
                 }
               }
             }
@@ -288,12 +288,12 @@ async function mr() {
             }
           }
           break
-        case "material_produce":
+        case "material_produce_v2":
           console.log(`【${vo.data.position}】上开始生产${vo.data.material_name}`)
           client.send(`{"msg":{"type":"action","args":{},"action":"to_employee"}}`)
           $.pos.push(vo.data.position)
           break
-        case "material_fetch":
+        case "material_fetch_v2":
           if (vo.code === '200' || vo.code === 200) {
             console.log(vo)
             console.log(`【${vo.data.position}】收取成功，获得${vo.data.procedure.produce_num}份${vo.data.material_name}`)
@@ -364,7 +364,7 @@ async function mr() {
           if (vo.code === '200' || vo.code === 200) {
             for (let product of vo.data) {
               if (product.num === product.produce_num) {
-                client.send(`{"msg":{"type":"action","args":{"log_id":${product.id}},"action":"product_fetch"}}`)
+                client.send(`{"msg":{"type":"action","args":{"log_id":${product.id}},"action":"new_product_fetch"}}`)
               } else {
                 console.log(`产品【${product.product.id}】未生产完成，无法收取`)
               }
@@ -373,7 +373,7 @@ async function mr() {
             console.log(`生产商品信息获取失败，错误信息${vo.msg}`)
           }
           break
-        case "product_fetch":
+        case "new_product_fetch":
           if (vo.code === '200' || vo.code === 200) {
             console.log(`收取产品【${vo.data.product.name}】${vo.data.num}份`)
           } else {

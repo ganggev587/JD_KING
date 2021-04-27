@@ -16,12 +16,12 @@ inputs:
   memorySize: 64 # 内存大小，单位MB
   timeout: 900 # 超时时间，单位秒
   events: #触发器
-    - timer: #超级直播间红包雨
+    - timer: #半点京豆雨
         parameters:
-          name: Live-RedRain
-          cronExpression: "0,2 0,30,31 20-23/1 20 4 * *"
+          name: Half-RedRain
+          cronExpression: "3 30 20-23/1 * * * *"
           enable: true
-          argument: jd_live_redrain
+          argument: jd_half_redrain
     - timer: #整点京豆雨
         parameters:
           name: Super-RedRain

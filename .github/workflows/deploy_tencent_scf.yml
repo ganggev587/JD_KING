@@ -1,46 +1,47 @@
-name: 「Test」腾讯云函数
-
-on:
+name: 「Test」腾讯云函数	
+on:	
   workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    if: github.event.repository.owner.id == github.event.sender.id
-    env:
-      JD_COOKIE: ${{ secrets.JD_COOKIE}}
-      JD_DEBUG: ${{ secrets.JD_DEBUG}}
-      JD_USER_AGENT: ${{ secrets.JD_USER_AGENT}}
-      TENCENTSCF_SOURCE_TYPE: ${{ secrets.TENCENTSCF_SOURCE_TYPE}}
-      TENCENTSCF_SOURCE_URL: ${{ secrets.TENCENTSCF_SOURCE_URL}}
-      PUSH_KEY: ${{ secrets.PUSH_KEY}}
-      BARK_PUSH: ${{ secrets.BARK_PUSH}}
-      BARK_SOUND: ${{ secrets.BARK_SOUND}}
-      TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN}}
-      TG_USER_ID: ${{ secrets.TG_USER_ID}}
-      DD_BOT_TOKEN: ${{ secrets.DD_BOT_TOKEN}}
-      DD_BOT_SECRET: ${{ secrets.DD_BOT_SECRET}}
-      QYWX_KEY: ${{ secrets.QYWX_KEY}}
-      QYWX_AM: ${{ secrets.QYWX_AM}}
-      IGOT_PUSH_KEY: ${{ secrets.IGOT_PUSH_KEY}}
-      PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN}}
-      PUSH_PLUS_USER: ${{ secrets.PUSH_PLUS_USER}}
-      TG_PROXY_HOST: ${{ secrets.TG_PROXY_HOST}}
-      TG_PROXY_PORT: ${{ secrets.TG_PROXY_PORT}}
-      TG_PROXY_AUTH: ${{ secrets.TG_PROXY_AUTH}}
-      TG_API_HOST: ${{ secrets.TG_API_HOST}}
-      FRUITSHARECODES: ${{ secrets.FRUITSHARECODES}}
-      PETSHARECODES: ${{ secrets.PETSHARECODES}}
-      PLANT_BEAN_SHARECODES: ${{ secrets.PLANT_BEAN_SHARECODES}}
-      DDFACTORY_SHARECODES: ${{ secrets.DDFACTORY_SHARECODES}}
-      DREAM_FACTORY_SHARE_CODES: ${{ secrets.DREAM_FACTORY_SHARE_CODES}}
-      JDZZ_SHARECODES: ${{ secrets.JDZZ_SHARECODES}}
-      JDJOY_SHARECODES: ${{ secrets.JDJOY_SHARECODES}}
-      BOOKSHOP_SHARECODES: ${{ secrets.BOOKSHOP_SHARECODES}}
-      JD_CASH_SHARECODES: ${{ secrets.JD_CASH_SHARECODES}}
-      JXNC_SHARECODES: ${{ secrets.JXNC_SHARECODES}}
-      JDSGMH_SHARECODES: ${{ secrets.JDSGMH_SHARECODES}}
+  repository_dispatch:
+    types: deploy_tencent_scf
+jobs:	
+  build:	
+    runs-on: ubuntu-latest	
+    if: github.event.repository.owner.id == github.event.sender.id	
+    env:	
+      JD_COOKIE: ${{ secrets.JD_COOKIE}}	
+      JD_DEBUG: ${{ secrets.JD_DEBUG}}	
+      JD_USER_AGENT: ${{ secrets.JD_USER_AGENT}}	
+      TENCENTSCF_SOURCE_TYPE: ${{ secrets.TENCENTSCF_SOURCE_TYPE}}	
+      TENCENTSCF_SOURCE_URL: ${{ secrets.TENCENTSCF_SOURCE_URL}}	
+      PUSH_KEY: ${{ secrets.PUSH_KEY}}	
+      BARK_PUSH: ${{ secrets.BARK_PUSH}}	
+      BARK_SOUND: ${{ secrets.BARK_SOUND}}	
+      TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN}}	
+      TG_USER_ID: ${{ secrets.TG_USER_ID}}	
+      DD_BOT_TOKEN: ${{ secrets.DD_BOT_TOKEN}}	
+      DD_BOT_SECRET: ${{ secrets.DD_BOT_SECRET}}	
+      QYWX_KEY: ${{ secrets.QYWX_KEY}}	
+      QYWX_AM: ${{ secrets.QYWX_AM}}	
+      IGOT_PUSH_KEY: ${{ secrets.IGOT_PUSH_KEY}}	
+      PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN}}	
+      PUSH_PLUS_USER: ${{ secrets.PUSH_PLUS_USER}}	
+      TG_PROXY_HOST: ${{ secrets.TG_PROXY_HOST}}	
+      TG_PROXY_PORT: ${{ secrets.TG_PROXY_PORT}}	
+      TG_PROXY_AUTH: ${{ secrets.TG_PROXY_AUTH}}	
+      TG_API_HOST: ${{ secrets.TG_API_HOST}}	
+      FRUITSHARECODES: ${{ secrets.FRUITSHARECODES}}	
+      PETSHARECODES: ${{ secrets.PETSHARECODES}}	
+      PLANT_BEAN_SHARECODES: ${{ secrets.PLANT_BEAN_SHARECODES}}	
+      DDFACTORY_SHARECODES: ${{ secrets.DDFACTORY_SHARECODES}}	
+      DREAM_FACTORY_SHARE_CODES: ${{ secrets.DREAM_FACTORY_SHARE_CODES}}	
+      JDZZ_SHARECODES: ${{ secrets.JDZZ_SHARECODES}}	
+      JDJOY_SHARECODES: ${{ secrets.JDJOY_SHARECODES}}	
+      BOOKSHOP_SHARECODES: ${{ secrets.BOOKSHOP_SHARECODES}}	
+      JD_CASH_SHARECODES: ${{ secrets.JD_CASH_SHARECODES}}	
+      JXNC_SHARECODES: ${{ secrets.JXNC_SHARECODES}}	
+      JDSGMH_SHARECODES: ${{ secrets.JDSGMH_SHARECODES}}	
       JDCFD_SHARECODES: ${{ secrets.JDCFD_SHARECODES}}
+      JD818_SHARECODES: ${{ secrets.JD818_SHARECODES}}
       JD_BEAN_STOP: ${{ secrets.JD_BEAN_STOP}}
       JD_BEAN_SIGN_STOP_NOTIFY: ${{ secrets.JD_BEAN_SIGN_STOP_NOTIFY}}
       JD_BEAN_SIGN_NOTIFY_SIMPLE: ${{ secrets.JD_BEAN_SIGN_NOTIFY_SIMPLE}}
@@ -85,14 +86,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: "安装依赖"
-        run: |
-          npm install
-          npm install tencentcloud-sdk-nodejs
-          npm install got
-          npm install tough-cookie
-          npm install js-yaml
-
       - name: "将Secrets里面配置的变量添加到severless.yml里面作为环境变量"
         run: |
           if [ $JD_COOKIE ]; then sed -i "/variables/a\      JD_COOKIE: $JD_COOKIE" serverless.yml; fi;
@@ -128,6 +121,7 @@ jobs:
           if [ $JXNC_SHARECODES ]; then sed -i "/variables/a\      JXNC_SHARECODES: $JXNC_SHARECODES" serverless.yml; fi;
           if [ $JDSGMH_SHARECODES ]; then sed -i "/variables/a\      JDSGMH_SHARECODES: $JDSGMH_SHARECODES" serverless.yml; fi;
           if [ $JDCFD_SHARECODES ]; then sed -i "/variables/a\      JDCFD_SHARECODES: $JDCFD_SHARECODES" serverless.yml; fi;
+          if [ $JD818_SHARECODES ]; then sed -i "/variables/a\      JD818_SHARECODES: $JD818_SHARECODES" serverless.yml; fi;
           if [ $JD_BEAN_STOP ]; then sed -i "/variables/a\      JD_BEAN_STOP: $JD_BEAN_STOP" serverless.yml; fi;
           if [ $JD_BEAN_SIGN_STOP_NOTIFY ]; then sed -i "/variables/a\      JD_BEAN_SIGN_STOP_NOTIFY: $JD_BEAN_SIGN_STOP_NOTIFY" serverless.yml; fi;
           if [ $JD_BEAN_SIGN_NOTIFY_SIMPLE ]; then sed -i "/variables/a\      JD_BEAN_SIGN_NOTIFY_SIMPLE: $JD_BEAN_SIGN_NOTIFY_SIMPLE" serverless.yml; fi;
@@ -166,6 +160,14 @@ jobs:
       - name: "压缩文件夹"
         run: zip -r myfile.zip ./*
         
+      - name: "安装依赖"
+        run: |
+          npm install
+          npm install tencentcloud-sdk-nodejs
+          npm install got
+          npm install tough-cookie
+          npm install js-yaml
+
       - name: "部署到腾讯云函数"
         run: node tencentscf.js
         env:

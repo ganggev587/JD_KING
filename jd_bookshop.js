@@ -32,8 +32,7 @@ ADD_CART = $.isNode() ? (process.env.PURCHASE_SHOPS ? process.env.PURCHASE_SHOPS
 let inviteCodes = [	
   'c68bf26e0a9e4e73b610b9902448bea6@61dc4400fcba4b38893ea88dcf7ee6a4@ed769bec4e514a34a026e22b5deb1937@c993d26b0dd94ca0a68b910fbf281e5d',	
   'c68bf26e0a9e4e73b610b9902448bea6@61dc4400fcba4b38893ea88dcf7ee6a4@ed769bec4e514a34a026e22b5deb1937@c993d26b0dd94ca0a68b910fbf281e5d'	
-]
-
+	]
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -43,7 +42,6 @@ if ($.isNode()) {
 } else {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
-
 !(async () => {
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
@@ -54,11 +52,12 @@ if ($.isNode()) {
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
+      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
       $.index = i + 1;
       $.isLogin = true;
       $.nickName = '';
       message = '';
+      $.exit = false;
       await TotalBean();
       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
       if (!$.isLogin) {
@@ -79,7 +78,6 @@ if ($.isNode()) {
   .finally(() => {
     $.done();
   })
-
 async function jdBeauty() {
   $.score = 0
   await getIsvToken()
@@ -106,7 +104,6 @@ async function jdBeauty() {
   await helpFriends()
   await showMsg();
 }
-
 async function helpFriends() {
   for (let code of $.newShareCodes) {
     if (!code) continue
@@ -115,7 +112,6 @@ async function helpFriends() {
     await $.wait(500)
   }
 }
-
 // 获得IsvToken
 function getIsvToken() {
   return new Promise(resolve => {
@@ -138,7 +134,6 @@ function getIsvToken() {
     })
   })
 }
-
 // 获得对应游戏的访问Token
 function getIsvToken2() {
   return new Promise(resolve => {
@@ -161,7 +156,6 @@ function getIsvToken2() {
     })
   })
 }
-
 // 获得游戏的Cookie
 function getActCk() {
   return new Promise(resolve => {
@@ -188,7 +182,6 @@ function getActCk() {
     })
   })
 }
-
 // 获得游戏信息
 function getActInfo() {
   return new Promise(resolve => {
@@ -212,7 +205,6 @@ function getActInfo() {
     })
   })
 }
-
 // 获得游戏的Token
 function getToken() {
   return new Promise(resolve => {
@@ -235,7 +227,6 @@ function getToken() {
     })
   })
 }
-
 // 获得用户信息
 function getUserInfo() {
   return new Promise(resolve => {
@@ -263,7 +254,6 @@ function getUserInfo() {
     })
   })
 }
-
 // 获得游戏信息
 function getActContent(info = false, shareUuid = '') {
   return new Promise(resolve => {
@@ -351,7 +341,6 @@ function doHelpList(taskType, value) {
       }
     })
   })
-
 }
 // 做任务
 function doTask(taskType, value) {
@@ -379,9 +368,7 @@ function doTask(taskType, value) {
       }
     })
   })
-
 }
-
 // 抽奖
 function draw() {
   let body = `activityId=${ACT_ID}&pin=${encodeURIComponent($.token)}&actorUuid=${$.actorUuid}`
@@ -412,7 +399,6 @@ function draw() {
     })
   })
 }
-
 // 获得图书
 function getAllBook() {
   let body = `activityId=${ACT_ID}&actorUuid=${$.actorUuid}&pin=${encodeURIComponent($.token)}`
@@ -425,7 +411,6 @@ function getAllBook() {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data.result && data.data) {
-
               const book = data.data.bookConfigList[0]
               let num = Math.trunc(data.data.haveScore / book.buyBookScore)
               console.log(`拥有${data.data.haveScore}积分，可购买${num}本`)
@@ -443,7 +428,6 @@ function getAllBook() {
     })
   })
 }
-
 // 购买图书
 function buyBook(bookUuid, num) {
   let body = `activityId=${ACT_ID}&actorUuid=${$.actorUuid}&pin=${encodeURIComponent($.token)}&bookUuid=${bookUuid}&buyNum=${num}`
@@ -468,7 +452,6 @@ function buyBook(bookUuid, num) {
     })
   })
 }
-
 function getMyBook() {
   let body = `activityId=${ACT_ID}&actorUuid=${$.actorUuid}&pin=${encodeURIComponent($.token)}&type1=1&type2=1&type3=1&type=1`
   return new Promise(resolve => {
@@ -497,7 +480,6 @@ function getMyBook() {
     })
   })
 }
-
 function upBook(bookUuid) {
   let body = `activityId=${ACT_ID}&actorUuid=${$.actorUuid}&pin=${encodeURIComponent($.token)}&bookUuid=${bookUuid}&isPutOn=1&position=1`
   return new Promise(resolve => {
@@ -523,7 +505,6 @@ function upBook(bookUuid) {
     })
   })
 }
-
 function chargeGold() {
   let body = `activityId=${ACT_ID}&actorUuid=${$.actorUuid}&pin=${encodeURIComponent($.token)}`
   return new Promise(resolve => {
@@ -549,15 +530,15 @@ function chargeGold() {
     })
   })
 }
-
 function showMsg() {
   return new Promise(resolve => {
-    message += `本次运行获得积分${$.score}`;
-    $.msg($.name, '', `京东账号${$.index}${$.nickName}\n${message}`);
+    if ($.score) {
+      message += `本次运行获得积分${$.score}`;
+      $.msg($.name, '', `京东账号${$.index}${$.nickName}\n${message}`);
+    }
     resolve()
   })
 }
-
 function jdUrl(functionId, body) {
   return {
     url: `https://api.m.jd.com/client.action?functionId=${functionId}`,
@@ -572,7 +553,6 @@ function jdUrl(functionId, body) {
     }
   }
 }
-
 function taskUrl(function_id, body) {
   return {
     url: `https://lzdz-isv.isvjcloud.com/${function_id}?${body}`,
@@ -589,7 +569,6 @@ function taskUrl(function_id, body) {
     }
   }
 }
-
 function taskPostUrl(function_id, body) {
   return {
     url: `https://lzdz-isv.isvjcloud.com/${function_id}`,
@@ -606,7 +585,6 @@ function taskPostUrl(function_id, body) {
     }
   }
 }
-
 function TotalBean() {
   return new Promise(async resolve => {
     const options = {
@@ -619,7 +597,7 @@ function TotalBean() {
         "Connection": "keep-alive",
         "Cookie": cookie,
         "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0")
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
       }
     }
     $.post(options, (err, resp, data) => {
@@ -651,7 +629,6 @@ function TotalBean() {
     })
   })
 }
-
 //格式化助力码
 function shareCodesFormat() {
   return new Promise(async resolve => {
@@ -698,7 +675,6 @@ function requireConfig() {
     resolve()
   })
 }
-
 function safeGet(data) {
   try {
     if (typeof JSON.parse(data) == "object") {
@@ -710,7 +686,6 @@ function safeGet(data) {
     return false;
   }
 }
-
 function jsonParse(str) {
   if (typeof str == "string") {
     try {

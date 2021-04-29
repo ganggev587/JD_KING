@@ -8,7 +8,7 @@ on:
   schedule:
     - cron: '0 16 * * *'
   repository_dispatch:
-    types: jd_syj
+    types: jd_syj_old
 jobs:
   build:
 
@@ -33,7 +33,7 @@ jobs:
           npm install
       - name: '运行 「京东」赚京豆'
         run: |
-          node jd_syj.js
+          node jd_syj_old.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}

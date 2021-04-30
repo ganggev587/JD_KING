@@ -6,7 +6,8 @@
 脚本默认会加购商品，若介意加购用户请勿添加脚本运行。
 
 环境变量：如需兑换奖品，请自行添加 export PASTURE_EXCHANGE_KEYWORD = ‘’（请尽可能输入精确且唯一的奖品名称）
-环境变量：如需关闭自动升级，请自行添加 export PASTURE_AUTOLEVELUP = false 默认是开启的自动升级的状态
+环境变量：如需关闭自动升级，请自行添加 export PASTURE_AUTOLEVELUP = 'false' 默认是开启的自动升级的状态
+环境变量：如需关闭抽奖，请自行添加 export PASTURE_LOTTERY = 'false' 默认是开启的自动抽奖的状态
 
 参数 helpAuthor = false
 更新地址：https://share.r2ray.com/dust/member/monk_pasture.js

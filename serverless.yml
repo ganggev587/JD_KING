@@ -27,7 +27,7 @@ inputs:
           name: Super-RedRain
           cronExpression: "3 0 * * * * *"
           enable: true
-          argument: jd_super_redrain&10_redrain
+          argument: jd_super_redrain
     - timer: #东东超市兑换奖品
         parameters:
           name: Redeem-Supermarket
@@ -43,7 +43,7 @@ inputs:
     - timer: #争分夺秒新一天-2
         parameters:
           name: New-Day-2
-          cronExpression: "0 0 0 * * * *"
+          cronExpression: "10 0 0 * * * *"
           enable: true
           argument: jd_shop&jd_sgmh
     - timer: #店铺签到
@@ -69,13 +69,13 @@ inputs:
           name: Red-Packet
           cronExpression: "30 1 1,2,23 * * * *"
           enable: true
-          argument: jd_redPacket_new&jd_speed_redpocke
+          argument: jd_redPacket&jd_speed_redpocke
     - timer: #十元街/赚京豆小程序
         parameters:
           name: SYJ
           cronExpression: "0 5 1,23 * * * *"
           enable: true
-          argument: jd_syj_new
+          argument: jd_syj
   environment: #  环境变量
     variables: #  环境变量对象
       AAA: BBB # 不要删除，用来格式化对齐追加的变量的

@@ -164,7 +164,7 @@ jobs:
         run: |
           npm install
           npm install tencentcloud-sdk-nodejs
-          npm install got
+          npm install got@11.5.1
           npm install tough-cookie
           npm install js-yaml
 

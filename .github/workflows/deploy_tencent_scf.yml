@@ -1,4 +1,4 @@
-name: 「Tencent」云函数_1
+name: 「Tencent」云函数
 on:	
   workflow_dispatch:
   repository_dispatch:

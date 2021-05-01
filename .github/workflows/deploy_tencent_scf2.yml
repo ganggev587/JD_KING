@@ -2,7 +2,7 @@ name: 「Tencent」云函数_2
 on:	
   workflow_dispatch:
   repository_dispatch:
-    types: deploy_tencent_scf_2
+    types: deploy_tencent_scf2
 jobs:	
   build:	
     runs-on: ubuntu-latest	

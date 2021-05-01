@@ -48,7 +48,7 @@ const sleep = ms => new Promise(res => setTimeout(res, ms));
       }
 
       console.log(`创建函数`);
-      let inputYML = ".github/workflows/deploy_tencent_scf_2.yml";
+      let inputYML = ".github/workflows/deploy_tencent_scf2.yml";
       let obj = yaml.load(fs.readFileSync(inputYML, { encoding: "utf-8" }));
       params = {
         Code: {

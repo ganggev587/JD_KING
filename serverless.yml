@@ -45,7 +45,7 @@ inputs:
           name: New-Day-2
           cronExpression: "10 0 0 * * * *"
           enable: true
-          argument: jd_shop&jd_sgmh
+          argument: jd_shop&jd_sgmh&jd_jin_tie
     - timer: #店铺签到
         parameters:
           name: Shop-Sign

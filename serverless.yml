@@ -2,7 +2,7 @@
 
 #组件信息
 component: scf # (必选) 组件名称，在该实例中为scf
-name: DogDog-1 # (必选) 组件实例名称。
+name: DogDog # (必选) 组件实例名称。
 
 #组件参数配置
 inputs:

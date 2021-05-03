@@ -31,7 +31,7 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: '运行 「手动」取关店铺商品'
+      - name: '运行 「京东」取关店铺商品'
         run: |
           node jd_unsubscribe.js
         env:

@@ -34,6 +34,18 @@ inputs:
           cronExpression: "52/1 59 23 * * * *"
           enable: true
           argument: jd_blueCoin
+    - timer: #宠汪汪积分兑换奖品
+        parameters:
+          name: Redeem-Joy-Reward
+          cronExpression: "52/1 59 23,7,15 * * * *"
+          enable: true
+          argument: jd_joy_reward
+    - timer: #取关店铺商品
+        parameters:
+          name: Unsubscribe
+          cronExpression: "35 35 * * * * *"
+          enable: true
+          argument: jd_unsubscribe
     - timer: #争分夺秒新一天-1
         parameters:
           name: New-Day-1
@@ -64,18 +76,6 @@ inputs:
           cronExpression: "0 0 0 * * * *"
           enable: true
           argument: jd_lotteryMachine&z_marketLottery
-    - timer: #锦鲤红包
-        parameters:
-          name: Red-Packet
-          cronExpression: "30 1 1,2,23 * * * *"
-          enable: true
-          argument: jd_redPacket&jd_speed_redpocke
-    - timer: #十元街/赚京豆小程序
-        parameters:
-          name: SYJ
-          cronExpression: "0 5 1,23 * * * *"
-          enable: true
-          argument: jd_syj
   environment: #  环境变量
     variables: #  环境变量对象
       AAA: BBB # 不要删除，用来格式化对齐追加的变量的

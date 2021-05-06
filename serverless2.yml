@@ -34,12 +34,18 @@ inputs:
           cronExpression: "25 25 * * * * *"
           enable: true
           argument: jd_moneyTree
-    - timer: #取关店铺商品
+    - timer: #十元街/赚京豆小程序
         parameters:
-          name: Unsubscribe
-          cronExpression: "35 35 */6 * * * *"
+          name: SYJ
+          cronExpression: "0 5 1,23 * * * *"
           enable: true
-          argument: jd_unsubscribe
+          argument: jd_syj
+    - timer: #锦鲤红包
+        parameters:
+          name: Red-Packet
+          cronExpression: "30 1 1,2,23 * * * *"
+          enable: true
+          argument: jd_redPacket&jd_speed_redpocke
   environment: #  环境变量
     variables: #  环境变量对象
       AAA: BBB # 不要删除，用来格式化对齐追加的变量的

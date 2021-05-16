@@ -29,7 +29,7 @@ let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭�
 let cookiesArr = [], cookie = '', message;
 let helpAuthor = true;
 const randomCount = $.isNode() ? 0 : 5;
-let cash_exchange = true;//是否消耗2元红包兑换200京豆，默认是
+let cash_exchange = true;//是否消耗2元红包兑换200京豆，默认否
 const inviteCodes = [
   `eU9YLLXMAYRgmReknwxG@eU9YCbfbHp5HkSepqRZx@eU9YOK7UAKtBuAiOihdW@eU9YCZvgLolCuT-OuCBu@cENiLq77Z_0n9w@eU9YK57pML9vly-8uSFB@eU9YaL_mNaly9zrRmicU1w@eU9YO63FEaZjrymnuiJy`,
   `eU9YLLXMAYRgmReknwxG@eU9YCbfbHp5HkSepqRZx@eU9YOK7UAKtBuAiOihdW@eU9YCZvgLolCuT-OuCBu@cENiLq77Z_0n9w@eU9YK57pML9vly-8uSFB@eU9YaL_mNaly9zrRmicU1w@eU9YO63FEaZjrymnuiJy`,
@@ -52,8 +52,8 @@ let allMessage = '';
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-  await requireConfig()
-  await getAuthorShareCode();
+  //await requireConfig()
+  //await getAuthorShareCode();
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -88,8 +88,8 @@ let allMessage = '';
     })
 async function jdCash() {
   await index()
-  await shareCodesFormat()
-  await helpFriends()
+  //await shareCodesFormat()
+  //await helpFriends()
   await getReward()
   await getReward('2');
   $.exchangeBeanNum = 0;
@@ -99,8 +99,8 @@ async function jdCash() {
     for (let item of ["-1", "0", "1", "2", "3"]) {
       $.canLoop = true;
       if ($.canLoop) {
-        for (let i = 0; i < 4; i++) {
-          await exchange2(item);//兑换200京豆(2元红包换200京豆，一周四次。)
+        for (let i = 0; i < 5; i++) {
+          await exchange2(item);//兑换200京豆(2元红包换200京豆，一周5次。)
         }
         if (!$.canLoop) {
           console.log(`已找到符合的兑换条件，跳出\n`);
@@ -135,7 +135,7 @@ function index(info=false) {
                 return
               }
               // console.log(`您的助力码为${data.data.result.inviteCode}`)
-              console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.data.result.inviteCode}\n`);
+              //console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.data.result.inviteCode}\n`);
               let helpInfo = {
                 'inviteCode': data.data.result.inviteCode,
                 'shareDate': data.data.result.shareDate

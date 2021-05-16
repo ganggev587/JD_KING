@@ -1,0 +1,19 @@
+
+name: 删除日志
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '4 4 */10 * *'
+
+
+jobs:
+  del_runs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete_workflow_runs
+        uses: smallprogram/delete-workflow-runs@main
+        with:
+          token: ${{ secrets.PAT }}
+          repository: ${{ github.repository }}
+          retain_days: 2
+          keep_minimum_runs: 6

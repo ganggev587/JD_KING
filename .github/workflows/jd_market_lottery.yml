@@ -6,7 +6,7 @@ name: 「京东」幸运大转盘
 on:
   workflow_dispatch:
   schedule:
-    - cron: '5 18 * * *'
+    - cron: '5 17,5 * * *'
   repository_dispatch:
     types: jd_market_lottery
 jobs:

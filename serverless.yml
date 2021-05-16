@@ -55,9 +55,9 @@ inputs:
     - timer: #争分夺秒新一天-2
         parameters:
           name: New-Day-2
-          cronExpression: "10 1 0 * * * *"
+          cronExpression: "30 0 0 * * * *"
           enable: true
-          argument: jd_sgmh&jd_jin_tie&z_xmf
+          argument: jd_shop&jd_sgmh&jd_jin_tie
     - timer: #店铺签到
         parameters:
           name: Shop-Sign
@@ -69,7 +69,7 @@ inputs:
           name: Miscellaneous-1
           cronExpression: "0 0 0 * * * *"
           enable: true
-          argument: jd_shop&jd_club_lottery&jd_rankingList
+          argument: z_xmf&jd_club_lottery&jd_rankingList
     - timer: #杂七杂八-2
         parameters:
           name: Miscellaneous-2

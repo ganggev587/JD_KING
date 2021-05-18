@@ -1001,8 +1001,8 @@ async function tuanActivity() {
   }
 }
 async function joinLeaderTuan() {
-  let res = await updateTuanIdsCDN(), res2 = await updateTuanIdsCDN("https://ghproxy.com/https://raw.githubusercontent.com/ElsaKing/updateTeam/master/shareCodes/jd_updateFactoryTuanId.json")
-  if (!res) res = await updateTuanIdsCDN('https://ghproxy.com/https://raw.githubusercontent.com/ElsaKing/updateTeam/master/shareCodes/jd_updateFactoryTuanId.json');
+  let res = await updateTuanIdsCDN(), res2 = await updateTuanIdsCDN("https://ghproxy.com/https://raw.githubusercontent.com/ElsaKing/updateTeam/main/shareCodes/jd_updateFactoryTuanId.json")
+  if (!res) res = await updateTuanIdsCDN('https://ghproxy.com/https://raw.githubusercontent.com/ElsaKing/updateTeam/main/shareCodes/jd_updateFactoryTuanId.json');
   $.authorTuanIds = [...(res && res.tuanIds || []),...(res2 && res2.tuanIds || [])]
   if ($.authorTuanIds && $.authorTuanIds.length) {
     for (let tuanId of $.authorTuanIds) {
@@ -1225,7 +1225,7 @@ function tuanAward(activeId, tuanId, isTuanLeader = true) {
   })
 }
 
-function updateTuanIdsCDN(url = 'https://ghproxy.com/https://raw.githubusercontent.com/ElsaKing/updateTeam/master/shareCodes/jd_updateFactoryTuanId.json') {
+function updateTuanIdsCDN(url = 'https://ghproxy.com/https://raw.githubusercontent.com/ElsaKing/updateTeam/main/shareCodes/jd_updateFactoryTuanId.json') {
   return new Promise(async resolve => {
     const options = {
       url: `${url}?${new Date()}`, "timeout": 10000, headers: {
@@ -1379,7 +1379,7 @@ function requireConfig() {
       console.log(`拼团活动ID: 获取成功 ${tuanActiveId}`)
     } else {
       if (!$.tuanConfigs) {
-        await updateTuanIdsCDN('https://ghproxy.com/https://raw.githubusercontent.com/ElsaKing/updateTeam/master/shareCodes/jd_updateFactoryTuanId.json');
+        await updateTuanIdsCDN('https://ghproxy.com/https://raw.githubusercontent.com/ElsaKing/updateTeam/main/shareCodes/jd_updateFactoryTuanId.json');
         if ($.tuanConfigs && $.tuanConfigs['tuanActiveId']) {
           tuanActiveId = $.tuanConfigs['tuanActiveId'];
           console.log(`拼团活动ID: 获取成功 ${tuanActiveId}`)

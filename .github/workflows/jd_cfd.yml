@@ -6,9 +6,9 @@ name: 「京东」财富岛
 on:
   workflow_dispatch:
   schedule:
-    - cron: '7 16,0,5,11 * * *'
+    - cron: '7 * * * *'
   repository_dispatch:
-    types: jd_cfd_old
+    types: jd_cfd
 jobs:
   build:
 
@@ -33,7 +33,7 @@ jobs:
           npm install
       - name: '运行 「京东」财富岛'
         run: |
-          node jd_cfd_old.js
+          node jd_cfd.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}

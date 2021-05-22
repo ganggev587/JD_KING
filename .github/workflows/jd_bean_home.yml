@@ -6,7 +6,7 @@ name: 「京豆」额外奖励
 on:
   workflow_dispatch:
   schedule:
-    - cron: '31 * * * *'
+    - cron: '31 16 * * *'
   repository_dispatch:
     types: jd_bean_home
 jobs:

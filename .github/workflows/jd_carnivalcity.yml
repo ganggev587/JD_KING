@@ -8,7 +8,7 @@ on:
   schedule:
     - cron: '18 * * * *'
   repository_dispatch:
-    types: z_carnivalcity
+    types: jd_carnivalcity
 jobs:
   build:
 
@@ -33,7 +33,7 @@ jobs:
           npm install
       - name: '运行 「活动」手机狂欢城'
         run: |
-          node z_carnivalcity.js
+          node jd_carnivalcity.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}

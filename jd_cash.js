@@ -29,7 +29,7 @@ let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭�
 let cookiesArr = [], cookie = '', message;
 let helpAuthor = true;
 const randomCount = $.isNode() ? 0 : 5;
-let cash_exchange = true;//是否消耗2元红包兑换200京豆，默认否
+let cash_exchange = false;//是否消耗2元红包兑换200京豆，默认否
 const inviteCodes = [
   `eU9YLLXMAYRgmReknwxG@eU9YCbfbHp5HkSepqRZx@eU9YOK7UAKtBuAiOihdW@eU9YCZvgLolCuT-OuCBu@cENiLq77Z_0n9w@eU9YK57pML9vly-8uSFB@eU9YaL_mNaly9zrRmicU1w@eU9YO63FEaZjrymnuiJy`,
   `eU9YLLXMAYRgmReknwxG@eU9YCbfbHp5HkSepqRZx@eU9YOK7UAKtBuAiOihdW@eU9YCZvgLolCuT-OuCBu@cENiLq77Z_0n9w@eU9YK57pML9vly-8uSFB@eU9YaL_mNaly9zrRmicU1w@eU9YO63FEaZjrymnuiJy`,

@@ -6,7 +6,7 @@ name: 「活动」城城领现金
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0-23/1 * * *'
+    - cron: '18 * * * *'
   repository_dispatch:
     types: jd_city
 jobs:

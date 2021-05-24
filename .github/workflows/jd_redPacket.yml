@@ -8,7 +8,7 @@ on:
   schedule:
     - cron: '1 17 * * *'
   repository_dispatch:
-    types: jd_redPacket_old
+    types: jd_redPacket
 jobs:
   build:
 
@@ -33,7 +33,7 @@ jobs:
           npm install
       - name: '运行 「京东」锦鲤红包'
         run: |
-          node jd_redPacket_old.js
+          node jd_redPacket.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}

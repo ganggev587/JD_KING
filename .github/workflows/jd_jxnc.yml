@@ -50,4 +50,3 @@ jobs:
           DD_BOT_TOKEN: ${{ secrets.DD_BOT_TOKEN }}
           JXNC_SHARECODES: ${{ secrets.JXNC_SHARECODES }}
           JXNCTOKENS: ${{ secrets.JXNCTOKENS }}
-          DREAMFACTORY_FORBID_ACCOUNT: ${{ secrets.DREAMFACTORY_FORBID_ACCOUNT }}

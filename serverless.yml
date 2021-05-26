@@ -40,12 +40,12 @@ inputs:
           cronExpression: "52/1 59 23,7,15 * * * *"
           enable: true
           argument: jd_joy_reward
-    - timer: #取关店铺商品
+    - timer: #每20分钟
         parameters:
           name: Unsubscribe
-          cronExpression: "35 35 * * * * *"
+          cronExpression: "20 */20 * * * * *"
           enable: true
-          argument: jd_unsubscribe
+          argument: jd_health_collect&jd_unsubscribe
     - timer: #争分夺秒新一天-1
         parameters:
           name: New-Day-1

@@ -6,7 +6,7 @@ name: 「京喜」京喜农场
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 1,4,10 * * *'
+    - cron: '*/30 * * * *'
   repository_dispatch:
     types: jd_jxnc
 jobs:

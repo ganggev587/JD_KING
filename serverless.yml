@@ -45,7 +45,7 @@ inputs:
           name: Unsubscribe
           cronExpression: "20 */20 * * * * *"
           enable: true
-          argument: jd_health_collect&jd_unsubscribe
+          argument: z_health_energy&jd_unsubscribe
     - timer: #争分夺秒新一天-1
         parameters:
           name: New-Day-1

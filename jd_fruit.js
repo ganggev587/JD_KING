@@ -1,6 +1,6 @@
 /*
 东东水果:脚本更新地址 https://jdsharedresourcescdn.azureedge.net/jdresource/jd_fruit.js
-更新时间：2021-4-9
+更新时间：2021-5-18
 活动入口：京东APP我的-更多工具-东东农场
 东东农场活动链接：https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html
 已支持IOS双京东账号,Node.js支持N个京东账号
@@ -30,12 +30,9 @@ let cookiesArr = [], cookie = '', jdFruitShareArr = [], isBox = false, notify, n
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
 let shareCodes = [ // 这个列表填入你要助力的好友的shareCode
    //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开
-  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@0e432fff4fc649aca3123b7369da53b1@d85b89b1b5ed40ea97ddad1c5d7020cb@8837b8b41ef5471aaff64150835c2930@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea',
+  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@0e432fff4fc649aca3123b7369da53b1@57c2eaace82a4a4ca6345d8913ebfcc3@d85b89b1b5ed40ea97ddad1c5d7020cb',
   //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开
-  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@0e432fff4fc649aca3123b7369da53b1@d85b89b1b5ed40ea97ddad1c5d7020cb@8837b8b41ef5471aaff64150835c2930@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea',
-  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@0e432fff4fc649aca3123b7369da53b1@d85b89b1b5ed40ea97ddad1c5d7020cb@8837b8b41ef5471aaff64150835c2930@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea',
-  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@0e432fff4fc649aca3123b7369da53b1@d85b89b1b5ed40ea97ddad1c5d7020cb@8837b8b41ef5471aaff64150835c2930@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea',
-  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@1d18ed7c7e5d430a92ca0e9e8819d56f@0e432fff4fc649aca3123b7369da53b1@d85b89b1b5ed40ea97ddad1c5d7020cb@8837b8b41ef5471aaff64150835c2930@b94681d5f9904722a7f277f86ef76aa9@728b92dfaacf4f97bd86df6cb3b352ea'
+  '20bab5d0edc044a999216db8872cec04@e8b5580c693042b3b276b693c4e30b8b@0e432fff4fc649aca3123b7369da53b1@57c2eaace82a4a4ca6345d8913ebfcc3@d85b89b1b5ed40ea97ddad1c5d7020cb',
 ]
 let message = '', subTitle = '', option = {}, isFruitFinished = false;
 const retainWater = 100;//保留水滴大于多少g,默认100g;
@@ -901,7 +898,7 @@ async function receiveFriendInvite() {
     // console.log(`接收邀请成为好友结果:${JSON.stringify($.inviteFriendRes)}`)
     if ($.inviteFriendRes && $.inviteFriendRes.helpResult && $.inviteFriendRes.helpResult.code === '0') {
       console.log(`接收邀请成为好友结果成功,您已成为${$.inviteFriendRes.helpResult.masterUserInfo.nickName}的好友`)
-    } else if ($.inviteFriendRes.helpResult.code === '17') {
+    } else if ($.inviteFriendRes && $.inviteFriendRes.helpResult && $.inviteFriendRes.helpResult.code === '17') {
       console.log(`接收邀请成为好友结果失败,对方已是您的好友`)
     }
   }
@@ -1254,7 +1251,7 @@ function timeFormat(time) {
 }
 function readShareCode() {
   return new Promise(async resolve => {
-    $.get({url: `http://jd.turinglabs.net/api/v2/jd/farm/read/${randomCount}/`, timeout: 10000,}, (err, resp, data) => {
+    $.get({url: `http://share.turinglabs.net/api/v3/farm/query/${randomCount}/`, timeout: 10000,}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -1334,42 +1331,38 @@ function requireConfig() {
 function TotalBean() {
   return new Promise(async resolve => {
     const options = {
-      "url": `https://wq.jd.com/user/info/QueryJDUserInfo?sceneval=2`,
-      "headers": {
-        "Accept": "application/json,text/plain, */*",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept-Encoding": "gzip, deflate, br",
+      url: "https://me-api.jd.com/user_new/info/GetJDUserInfoUnion",
+      headers: {
+        Host: "me-api.jd.com",
+        Accept: "*/*",
+        Connection: "keep-alive",
+        Cookie: cookie,
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
         "Accept-Language": "zh-cn",
-        "Connection": "keep-alive",
-        "Cookie": cookie,
-        "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
-      },
-      "timeout": 10000,
+        "Referer": "https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&",
+        "Accept-Encoding": "gzip, deflate, br"
+      }
     }
-    $.post(options, (err, resp, data) => {
+    $.get(options, (err, resp, data) => {
       try {
         if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
+          $.logErr(err)
         } else {
           if (data) {
             data = JSON.parse(data);
-            if (data['retcode'] === 13) {
+            if (data['retcode'] === "1001") {
               $.isLogin = false; //cookie过期
-              return
+              return;
             }
-            if (data['retcode'] === 0) {
-              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
-            } else {
-              $.nickName = $.UserName
+            if (data['retcode'] === "0" && data.data && data.data.hasOwnProperty("userInfo")) {
+              $.nickName = data.data.userInfo.baseInfo.nickname;
             }
           } else {
-            console.log(`京东服务器返回空数据`)
+            $.log('京东服务器返回空数据');
           }
         }
       } catch (e) {
-        $.logErr(e, resp)
+        $.logErr(e)
       } finally {
         resolve();
       }

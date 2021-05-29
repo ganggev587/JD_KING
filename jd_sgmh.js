@@ -29,11 +29,8 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let appId = '1EFRXxg' , homeDataFunPrefix = 'interact_template', collectScoreFunPrefix = 'harmony', message = ''
 let lotteryResultFunPrefix = homeDataFunPrefix, browseTime = 6
 const inviteCodes = [
-  'T0205KkcJUVwjTa2QFOI9pJoCjVQmoaT5kRrbA@T0205KkcFFx_kwOwaXyv1ZNPCjVQmoaT5kRrbA@T0205KkcJWlLvSGzaEuv56R3CjVQmoaT5kRrbA@T0147aUmAlxQ9FXWJgCjVQmoaT5kRrbA@T0225KkcRE1NpgGDJk7wxaMNdQCjVQmoaT5kRrbA@T0205KkcF19ugg6Sfl2G5aZrCjVQmoaT5kRrbA@T0225KkcRxodpgDWIEz1nP8LfQCjVQmoaT5kRrbA',
-  'T0205KkcJUVwjTa2QFOI9pJoCjVQmoaT5kRrbA@T0205KkcFFx_kwOwaXyv1ZNPCjVQmoaT5kRrbA@T0205KkcJWlLvSGzaEuv56R3CjVQmoaT5kRrbA@T0147aUmAlxQ9FXWJgCjVQmoaT5kRrbA@T0225KkcRE1NpgGDJk7wxaMNdQCjVQmoaT5kRrbA@T0205KkcF19ugg6Sfl2G5aZrCjVQmoaT5kRrbA@T0225KkcRxodpgDWIEz1nP8LfQCjVQmoaT5kRrbA',
-  'T0205KkcJUVwjTa2QFOI9pJoCjVQmoaT5kRrbA@T0205KkcFFx_kwOwaXyv1ZNPCjVQmoaT5kRrbA@T0205KkcJWlLvSGzaEuv56R3CjVQmoaT5kRrbA@T0147aUmAlxQ9FXWJgCjVQmoaT5kRrbA@T0225KkcRE1NpgGDJk7wxaMNdQCjVQmoaT5kRrbA@T0205KkcF19ugg6Sfl2G5aZrCjVQmoaT5kRrbA@T0225KkcRxodpgDWIEz1nP8LfQCjVQmoaT5kRrbA',
-  'T0205KkcJUVwjTa2QFOI9pJoCjVQmoaT5kRrbA@T0205KkcFFx_kwOwaXyv1ZNPCjVQmoaT5kRrbA@T0205KkcJWlLvSGzaEuv56R3CjVQmoaT5kRrbA@T0147aUmAlxQ9FXWJgCjVQmoaT5kRrbA@T0225KkcRE1NpgGDJk7wxaMNdQCjVQmoaT5kRrbA@T0205KkcF19ugg6Sfl2G5aZrCjVQmoaT5kRrbA@T0225KkcRxodpgDWIEz1nP8LfQCjVQmoaT5kRrbA',
-  'T0205KkcJUVwjTa2QFOI9pJoCjVQmoaT5kRrbA@T0205KkcFFx_kwOwaXyv1ZNPCjVQmoaT5kRrbA@T0205KkcJWlLvSGzaEuv56R3CjVQmoaT5kRrbA@T0147aUmAlxQ9FXWJgCjVQmoaT5kRrbA@T0225KkcRE1NpgGDJk7wxaMNdQCjVQmoaT5kRrbA@T0205KkcF19ugg6Sfl2G5aZrCjVQmoaT5kRrbA@T0225KkcRxodpgDWIEz1nP8LfQCjVQmoaT5kRrbA'
+  'T0205KkcAEdnkiyRSGOFwIhfCjVQmoaT5kRrbA@T0205KkcJUVwjTa2QFOI9pJoCjVQmoaT5kRrbA@T0205KkcJWlLvSGzaEuv56R3CjVQmoaT5kRrbA@T0205KkcPHp-qyqiYG2U3rB3CjVQmoaT5kRrbA@T0147aUmAlxQ9FXWJgCjVQmoaT5kRrbA',
+  'T0205KkcAEdnkiyRSGOFwIhfCjVQmoaT5kRrbA@T0205KkcJUVwjTa2QFOI9pJoCjVQmoaT5kRrbA@T0205KkcJWlLvSGzaEuv56R3CjVQmoaT5kRrbA@T0205KkcPHp-qyqiYG2U3rB3CjVQmoaT5kRrbA@T0147aUmAlxQ9FXWJgCjVQmoaT5kRrbA'
 ];
 const randomCount = $.isNode() ? 0 : 5;
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -315,7 +312,7 @@ function readShareCode() {
   console.log(`开始`)
   return new Promise(async resolve => {
     $.get({
-      url: `http://jd.turinglabs.net/api/v2/jd/sgmh/read/${randomCount}/`,
+      url: `http://share.turinglabs.net/api/v3/sgmh/query/${randomCount}/`,
       'timeout': 10000
     }, (err, resp, data) => {
       try {

@@ -34,12 +34,12 @@ inputs:
           cronExpression: "52/1 59 23 * * * *"
           enable: true
           argument: jd_blueCoin
-    - timer: #宠汪汪积分兑换奖品
+    - timer: #618主会场红包雨
         parameters:
-          name: Redeem-Joy-Reward
-          cronExpression: "52/1 59 23,7,15 * * * *"
+          name: long-hby-lottery
+          cronExpression: "18 0 20 1-18 6 * *"
           enable: true
-          argument: jd_joy_reward
+          argument: long_hby_lottery
     - timer: #每20分钟
         parameters:
           name: Unsubscribe

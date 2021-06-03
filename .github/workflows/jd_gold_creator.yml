@@ -6,9 +6,9 @@ name: 「活动」金榜创造营
 on:
   workflow_dispatch:
   schedule:
-    - cron: '8 0-23/12 * * *'
+    - cron: '18 -4-16/12 * * *'
   repository_dispatch:
-    types: jd_jbczy
+    types: jd_gold_creator
 jobs:
   build:
 
@@ -33,7 +33,7 @@ jobs:
           npm install
       - name: '运行 「活动」金榜创造营'
         run: |
-          node jd_jbczy.js
+          node jd_gold_creator.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}

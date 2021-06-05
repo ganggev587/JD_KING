@@ -9,7 +9,7 @@ PK互助：内部账号自行互助(排名靠前账号得到的机会多),多余
 地图任务：已添加，下午2点到5点执行,抽奖已添加(基本都是优惠券)
 金融APP任务：已完成
 活动时间：2021-05-24至2021-06-20
-脚本更新时间：2021-06-03 9:30
+脚本更新时间：2021-06-05 18:30
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ===================quantumultx================
 [task_local]
@@ -39,15 +39,15 @@ $.pkInviteList = [
 ];
 $.secretpInfo = {};
 $.innerPkInviteList = [
-  'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P366_UzIYRQAIrA9g1BqgA7Ng',
-  'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P36zvdIw3PtM_f311Aw8PnRQg',
-  'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P36ztvpVfzHdLyTBL0scBSGCw',
-  'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P3618hpXpScqFp2YIKEuotSlQ',
-  'sSKNX-MpqKOAvOH629LYBSrNsFzGfBadtZ4rN88FN0WqqAGm',
-  'sSKNX-MpqKOJsNu8ys-KUZvou2cWUOUY4iOSw2KqhUt7HmtP_oF2SibughDxEzIj',
-  'sSKNX-MpqKOJsNvv2OyuXrgQyjlM1m6HR7Ggo_odMPRuMFO0jfj-01-a0_sYMQ',
-  'sSKNX-MpqKOJsNu8ys-KUZvou2cWUOUY4iOSw2KqhUi-N9hWeQ5g2kIy0DStMD9f',
-  'sSKNX-MpqKOJsNu8ys-KUZvou2cWUOUY4iOSw2KqhUsrG2wd-NQmTHay1xDxEzIj'
+  'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P366_UzIYRQAIrA9g1BqgA7NQ',
+  'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P36zvdIw3PtM_f311Aw8PnRQQ',
+  'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P36ztvpVfzHdLyTBL0scBSGCA',
+  'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P3618hpXpScqFp2YIKEuotSlg',
+  'sSKNX-MpqKOAvOH629LYBSrNsFzGfBadtZ4rN88FN0WqqAGl',
+  'sSKNX-MpqKOJsNu8ys-KUZvou2cWUOUY4iOSw2KqhUt7HmtP_oF2SibughDxEzIg',
+  'sSKNX-MpqKOJsNvv2OyuXrgQyjlM1m6HR7Ggo_odMPRuMFO0jfj-01-a0_sYMg',
+  'sSKNX-MpqKOJsNu8ys-KUZvou2cWUOUY4iOSw2KqhUi-N9hWeQ5g2kIy0DStMD9c',
+  'sSKNX-MpqKOJsNu8ys-KUZvou2cWUOUY4iOSw2KqhUsrG2wd-NQmTHay1xDxEzIg'
 ];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -72,7 +72,7 @@ if ($.isNode()) {
       '地图任务：已添加，下午2点到5点执行,抽奖已添加\n' +
       '金融APP任务：已完成\n' +
       '活动时间：2021-05-24至2021-06-20\n' +
-      '脚本更新时间：2021-06-03 9:30\n'
+      '脚本更新时间：2021-06-05 18:30\n'
       );
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
@@ -216,25 +216,43 @@ async function zoo() {
             await $.wait(3000);
           }
         }
+      } else if ($.oneTask.taskType === 2 && $.oneTask.status === 1 && $.oneTask.scoreRuleVos[0].scoreRuleType === 2){
+        console.log(`做任务：${$.oneTask.taskName};等待完成 (实际不会添加到购物车)`);
+        $.taskId = $.oneTask.taskId;
+        $.feedDetailInfo = {};
+        await takePostRequest('zoo_getFeedDetail');
+        let productList = $.feedDetailInfo.productInfoVos;
+        let needTime = Number($.feedDetailInfo.maxTimes) - Number($.feedDetailInfo.times);
+        for (let j = 0; j < productList.length && needTime > 0; j++) {
+          if(productList[j].status !== 1){
+            continue;
+          }
+          $.taskToken = productList[j].taskToken;
+          console.log(`加购：${productList[j].skuName}`);
+          await takePostRequest('add_car');
+          await $.wait(1500);
+          needTime --;
+        }
+      }else if ($.oneTask.taskType === 2 && $.oneTask.status === 1 && $.oneTask.scoreRuleVos[0].scoreRuleType === 0){
+        $.activityInfoList = $.oneTask.productInfoVos ;
+        for (let j = 0; j < $.activityInfoList.length; j++) {
+          $.oneActivityInfo = $.activityInfoList[j];
+          if ($.oneActivityInfo.status !== 1 || !$.oneActivityInfo.taskToken) {
+            continue;
+          }
+          $.callbackInfo = {};
+          console.log(`做任务：浏览${$.oneActivityInfo.skuName};等待完成`);
+          await takePostRequest('zoo_collectScore');
+          if ($.oneTask.taskType === 2) {
+            await $.wait(2000);
+            console.log(`任务完成`);
+          } else {
+            console.log($.callbackInfo);
+            console.log(`任务失败`);
+            await $.wait(3000);
+          }
+        }
       }
-      // else if ($.oneTask.taskType === 2 && $.oneTask.status === 1){
-      //   console.log(`做任务：${$.oneTask.taskName};等待完成 (实际不会添加到购物车)`);
-      //   $.taskId = $.oneTask.taskId;
-      //   $.feedDetailInfo = {};
-      //   await takePostRequest('zoo_getFeedDetail');
-      //   let productList = $.feedDetailInfo.productInfoVos;
-      //   let needTime = Number($.feedDetailInfo.maxTimes) - Number($.feedDetailInfo.times);
-      //   for (let j = 0; j < productList.length && needTime > 0; j++) {
-      //     if(productList[j].status !== 1){
-      //       continue;
-      //     }
-      //     $.taskToken = productList[j].taskToken;
-      //     console.log(`加购：${productList[j].skuName}`);
-      //     await takePostRequest('add_car');
-      //     await $.wait(1500);
-      //     needTime --;
-      //   }
-      // }
     }
     await $.wait(1000);
     await takePostRequest('zoo_getHomeData');

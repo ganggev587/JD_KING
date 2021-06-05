@@ -43,7 +43,11 @@ $.innerPkInviteList = [
   'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P36zvdIw3PtM_f311Aw8PnRQg',
   'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P36ztvpVfzHdLyTBL0scBSGCw',
   'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P3618hpXpScqFp2YIKEuotSlQ',
-  'sSKNX-MpqKOAvOH629LYBSrNsFzGfBadtZ4rN88FN0WqqAGm'
+  'sSKNX-MpqKOAvOH629LYBSrNsFzGfBadtZ4rN88FN0WqqAGm',
+  'sSKNX-MpqKOJsNu8ys-KUZvou2cWUOUY4iOSw2KqhUt7HmtP_oF2SibughDxEzIj',
+  'sSKNX-MpqKOJsNvv2OyuXrgQyjlM1m6HR7Ggo_odMPRuMFO0jfj-01-a0_sYMQ',
+  'sSKNX-MpqKOJsNu8ys-KUZvou2cWUOUY4iOSw2KqhUi-N9hWeQ5g2kIy0DStMD9f',
+  'sSKNX-MpqKOJsNu8ys-KUZvou2cWUOUY4iOSw2KqhUsrG2wd-NQmTHay1xDxEzIj'
 ];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {

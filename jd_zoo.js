@@ -39,7 +39,11 @@ $.pkInviteList = [
 ];
 $.secretpInfo = {};
 $.innerPkInviteList = [
-  '',
+  'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P366_UzIYRQAIrA9g1BqgA7Ng',
+  'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P36zvdIw3PtM_f311Aw8PnRQg',
+  'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P36ztvpVfzHdLyTBL0scBSGCw',
+  'sSKNX-MpqKOJsNv4wOW-fJe6QL6cfGhXqDs78P3618hpXpScqFp2YIKEuotSlQ',
+  'sSKNX-MpqKOAvOH629LYBSrNsFzGfBadtZ4rN88FN0WqqAGm'
 ];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {

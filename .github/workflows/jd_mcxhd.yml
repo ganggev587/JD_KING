@@ -8,7 +8,7 @@ on:
   schedule:
     - cron: '18 4-16/12 * * *'
   repository_dispatch:
-    types: zooBrandcity
+    types: jd_mcxhd
 jobs:
   build:
 
@@ -33,7 +33,7 @@ jobs:
           npm install
       - name: '运行 「活动」新潮品牌狂欢'
         run: |
-          node zooBrandcity.js
+          node jd_mcxhd.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}

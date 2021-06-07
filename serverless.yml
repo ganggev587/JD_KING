@@ -27,7 +27,7 @@ inputs:
           name: Super-RedRain
           cronExpression: "0 0 * * * * *"
           enable: true
-          argument: jd_super_redrain
+          argument: jd_super_redrain&jd_cfd
     - timer: #东东超市兑换奖品
         parameters:
           name: Redeem-Supermarket
